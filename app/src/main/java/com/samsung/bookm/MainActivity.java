@@ -3,6 +3,8 @@ package com.samsung.bookm;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 
 
 import androidx.annotation.NonNull;
@@ -89,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       /*  //Disable ViewPager Swipe
+         //Disable ViewPager Swipe
        viewPager.setOnTouchListener(new View.OnTouchListener()
         {
             @Override
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        */
+
 
         setupViewPager(viewPager);
     }

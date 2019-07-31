@@ -6,4 +6,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_book_edit_hint">nhập từ khóa</string>
+    <string name="search">icon_search</string>
+    <string name="add">icon_add_book</string>
+    <string name="title_book_shelf_activity">My Books</string>
 </resources>
