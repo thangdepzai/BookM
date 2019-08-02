@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,19 +19,32 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.samsung.bookm.Adapter.BookAdapter;
 import com.samsung.bookm.Activity.SearchActivity;
 import com.samsung.bookm.R;
+import com.samsung.bookm.model.Book;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class BookShelfFragment extends Fragment {
+
     Toolbar toolbar;
+    RecyclerView mBookRecycler;
+    ArrayList<Book> listBooks;
+    BookAdapter adapter;
 
     public BookShelfFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        listBooks = new ArrayList<>();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,10 +60,13 @@ public class BookShelfFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        toolbar.inflateMenu(R.menu.book_shelf_menu);
+    }
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
 
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -63,16 +81,22 @@ public class BookShelfFragment extends Fragment {
                         startActivity(intent);
                         return true;
                     default:
-                       return BookShelfFragment.super.onOptionsItemSelected(item);
+                        return BookShelfFragment.super.onOptionsItemSelected(item);
                 }
             }
         });
 
+        mBookRecycler = (RecyclerView) view.findViewById(R.id.book_recycler);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
+        mBookRecycler.setLayoutManager(gridLayoutManager);
+        listBooks = new ArrayList<Book>();
+        getData();
+        adapter = new BookAdapter(getActivity(), listBooks);
+        mBookRecycler.setAdapter(adapter);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        toolbar.inflateMenu(R.menu.book_shelf_menu);
+    void getData() {
+
     }
+
 }
