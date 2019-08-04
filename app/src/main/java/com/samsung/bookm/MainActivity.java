@@ -1,5 +1,6 @@
 package com.samsung.bookm;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -7,7 +8,6 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     ScheduleFragment scheduleFragment;
     SettingFragment settingFragment;
     StatisticFragment statisticFragment;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,12 +102,10 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
     }
 
-
-
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        bookShelfFragment=new BookShelfFragment();
+        bookShelfFragment = new BookShelfFragment(this);
         scheduleFragment = new ScheduleFragment();
         settingFragment = new SettingFragment();
         statisticFragment = new StatisticFragment();
