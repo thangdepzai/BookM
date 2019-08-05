@@ -93,15 +93,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-         //Disable ViewPager Swipe
-       viewPager.setOnTouchListener(new View.OnTouchListener()
-        {
-            @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                return true;
-            }
-        });
+//         //Disable ViewPager Swipe
+//       viewPager.setOnTouchListener(new View.OnTouchListener()
+//        {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event)
+//            {
+//                return true;
+//            }
+//        });
 
 
 

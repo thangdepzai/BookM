@@ -21,9 +21,10 @@ import com.samsung.bookm.Adapter.IndexStatisticAdapter;
 import com.samsung.bookm.Adapter.StatisticAdapter;
 import com.samsung.bookm.Adapter.TickedListAdapter;
 import com.samsung.bookm.Model.Book;
+import com.samsung.bookm.Model.IndexStatistic;
 import com.samsung.bookm.R;
 
-import com.samsung.bookm.model.IndexStatistic;
+
 
 import java.util.ArrayList;
 
