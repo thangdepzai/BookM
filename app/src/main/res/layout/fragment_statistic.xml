@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -24,3 +25,105 @@
     </FrameLayout>
 
 </LinearLayout>
+=======
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D0D0CE"
+    android:orientation="vertical"
+    tools:context=".Fragment.StatisticFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffff"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Các sách đã đọc"
+                android:textColor="#120F0F"
+                android:textSize="18sp"
+                android:paddingLeft="5dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/recycle_view_product"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scrollbars="horizontal" />
+
+        </LinearLayout>
+        <!-- TODO: Update blank fragment layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#ffff"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Các dấu trang"
+                android:textColor="#120F0F"
+                android:textSize="18sp"
+                android:paddingLeft="5dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/recycle_view_ticked_page"
+                android:layout_width="match_parent"
+                android:layout_height="185dp"
+                android:scrollbars="horizontal" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#ffff"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="#ffff">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Thống kê"
+                    android:textColor="#120F0F"
+                    android:textSize="18sp"
+                    android:paddingLeft="5dp"/>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/recycle_view_index"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:scrollbars="horizontal"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+
+
+>>>>>>> 80bc15464492b8facfff7d6abd022b8e1dc423c5

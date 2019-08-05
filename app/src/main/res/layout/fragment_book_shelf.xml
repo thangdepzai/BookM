@@ -7,6 +7,7 @@
     android:orientation="vertical"
     tools:context=".Fragment.BookShelfFragment">
 
+<<<<<<< HEAD
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,5 +30,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>
+=======
+    <!-- TODO: Update blank fragment layout -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+
+>>>>>>> 80bc15464492b8facfff7d6abd022b8e1dc423c5
 
 </LinearLayout>

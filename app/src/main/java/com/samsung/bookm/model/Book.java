@@ -13,6 +13,7 @@ public class Book implements Serializable {
     private String imgPath;
     private int numPage;
     private int lastRecentPage;
+    private  int idImage;
 
     public Book() {}
 
@@ -22,6 +23,24 @@ public class Book implements Serializable {
         this.authorId = authorId;
         this.bookPath = bookPath;
         this.imgPath = imgPath;
+        this.numPage = numPage;
+        this.lastRecentPage = lastRecentPage;
+    }
+
+    public int getIdImage() {
+        return idImage;
+    }
+
+    public void setIdImage(int idImage) {
+        this.idImage = idImage;
+    }
+
+    public Book(String name, int genreId, int authorId, String bookPath, int idImage, int numPage, int lastRecentPage) {
+        this.name = name;
+        this.genreId = genreId;
+        this.authorId = authorId;
+        this.bookPath = bookPath;
+        this.idImage = idImage;
         this.numPage = numPage;
         this.lastRecentPage = lastRecentPage;
     }
@@ -105,5 +124,6 @@ public class Book implements Serializable {
     public void setLastRecentPage(int lastRecentPage) {
         this.lastRecentPage = lastRecentPage;
     }
+
 
 }

@@ -17,6 +17,7 @@ import com.samsung.bookm.Activity.ReadActivity;
 import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.R;
 
+
 import java.util.ArrayList;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder> {
@@ -40,24 +41,24 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
     @NonNull
 
     @Override
-    public void onBindViewHolder(@NonNull BookViewHolder bookViewHolder, final int position) {
+    public void onBindViewHolder(@NonNull BookViewHolder bookViewHolder, int position) {
         final Book book = bookArr.get(position);
         bookViewHolder.imBookCover.setImageResource(R.mipmap.defbookcover);
         bookViewHolder.tvBookName.setText(book.getName());
-
-        // onlick
+        // short click
         bookViewHolder.imBookCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(mContext, ReadActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("exercise", bookArr.get(position));
+                bundle.putSerializable("exercise", book);
                 i.putExtra("READ_BOOK", bundle);
                 mContext.startActivity(i);
             }
         });
-        // long click
 
+        // long click
+        // TODO
     }
 
     @Override

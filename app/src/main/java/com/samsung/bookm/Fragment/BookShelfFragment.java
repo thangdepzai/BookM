@@ -5,6 +5,9 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+
+import android.content.Context;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,30 +18,31 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.samsung.bookm.Activity.ReadActivity;
 import com.samsung.bookm.Adapter.BookAdapter;
 import com.samsung.bookm.Activity.SearchActivity;
 import com.samsung.bookm.Model.Book;
+import com.samsung.bookm.Interface.ITransferData;
 import com.samsung.bookm.R;
-import com.samsung.bookm.Util.IPdfReaderUtils;
 import static android.app.Activity.RESULT_OK;
 
 
 import java.util.ArrayList;
 
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BookShelfFragment extends Fragment {
+public class BookShelfFragment extends Fragment  implements ITransferData {
+
 
     Toolbar toolbar;
 
@@ -50,18 +54,12 @@ public class BookShelfFragment extends Fragment {
     RecyclerView mBookRecycler;
     ArrayList<Book> listBooks;
     BookAdapter adapter;
+    Context mContext;
 
-
-    public BookShelfFragment() {
+    public BookShelfFragment(Context context) {
         // Required empty public constructor
+        mContext = context;
     }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        listBooks = new ArrayList<>();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -99,13 +97,26 @@ public class BookShelfFragment extends Fragment {
             }
         });
 
-        mBookRecycler = (RecyclerView) view.findViewById(R.id.book_recycler);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
+
+
+        mBookRecycler = (RecyclerView) view.findViewById(R.id.recycle_view);
+
+        //tạo Grid với 3 cột
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext,3);
         mBookRecycler.setLayoutManager(gridLayoutManager);
-        listBooks = new ArrayList<Book>();
-        getData();
-        adapter = new BookAdapter(getContext(), listBooks);
+        listBooks = getData();
+        adapter = new BookAdapter(mContext,listBooks );
         mBookRecycler.setAdapter(adapter);
+        // Inflate the layout for this fragment
+
+    }
+
+
+
+    @Override
+    public void delete(int position) {
+        listBooks.remove(position);
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -158,7 +169,11 @@ public class BookShelfFragment extends Fragment {
         super.onDestroy();
         Log.d("SVMC", "DESTROY BOOK");
     }
-    void getData() {
+    ArrayList<Book> getData() {
+        ArrayList<Book> arr = new ArrayList();
+        // TODO get data tu dâtbase
+        return arr;
+
 
     }
 
