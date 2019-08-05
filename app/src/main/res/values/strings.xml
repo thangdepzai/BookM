@@ -10,4 +10,19 @@
     <string name="search">icon_search</string>
     <string name="add">icon_add_book</string>
     <string name="title_book_shelf_activity">My Books</string>
+    <string name="repeat_type">Repeat Type</string>
+    <string name="repeat_no">Repeat No</string>
+    <string name="repeat">Repeat</string>
+    <string name="time">Time</string>
+    <string name="date">Date</string>
+    <string name="details">Detail</string>
+    <string name="add_reminder">Add reminder</string>
+    <string name="title_activity_add_reminder">Add reminder</string>
+    <string name="repeat_off">Repeat off</string>
+    <string name="title_activity_edit_reminder">Edit Reminder</string>
+    <string name="action_discard_reminder">discard reminder</string>
+    <string name="action_save_reminder">save reminder</string>
+    <string name="title_schedule_activity">My Schedules</string>
+    <string name="more_book">More book</string>
+    <string name="more_schedule">More schedule</string>
 </resources>
