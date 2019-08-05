@@ -1,37 +1,129 @@
-package com.samsung.bookm.model;
+package com.samsung.bookm.Model;
 
-public class Book {
-    private String mId;
-    private String mName;
-    private int mIdImage;
+import java.io.Serializable;
 
-    public Book(String mId, String mName, int mIdImage) {
-        this.mId = mId;
-        this.mName = mName;
-        this.mIdImage = mIdImage;
+public class Book implements Serializable {
+    private int id;
+    private String name;
+    private int genreId;
+    private int authorId;
+    private String genre;
+    private String author;
+    private String bookPath;
+    private String imgPath;
+    private int numPage;
+    private int lastRecentPage;
+    private  int idImage;
+
+    public Book() {}
+
+    public Book(String name, int genreId, int authorId, String bookPath, String imgPath, int numPage, int lastRecentPage) {
+        this.name = name;
+        this.genreId = genreId;
+        this.authorId = authorId;
+        this.bookPath = bookPath;
+        this.imgPath = imgPath;
+        this.numPage = numPage;
+        this.lastRecentPage = lastRecentPage;
     }
 
-    public String getmId() {
-        return mId;
+    public int getIdImage() {
+        return idImage;
     }
 
-    public void setmId(String mId) {
-        this.mId = mId;
+    public void setIdImage(int idImage) {
+        this.idImage = idImage;
     }
 
-    public String getmName() {
-        return mName;
+    public Book(String name, int genreId, int authorId, String bookPath, int idImage, int numPage, int lastRecentPage) {
+        this.name = name;
+        this.genreId = genreId;
+        this.authorId = authorId;
+        this.bookPath = bookPath;
+        this.idImage = idImage;
+        this.numPage = numPage;
+        this.lastRecentPage = lastRecentPage;
     }
 
-    public void setmName(String mName) {
-        this.mName = mName;
+    public int getId() {
+        return id;
     }
 
-    public int getmIdImage() {
-        return mIdImage;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setmIdImage(int mIdImage) {
-        this.mIdImage = mIdImage;
+    public String getName() {
+        return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getGenreId() {
+        return genreId;
+    }
+
+    public void setGenreId(int genreId) {
+        this.genreId = genreId;
+    }
+
+    public int getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getBookPath() {
+        return bookPath;
+    }
+
+    public void setBookPath(String bookPath) {
+        this.bookPath = bookPath;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
+
+    public int getNumPage() {
+        return numPage;
+    }
+
+    public void setNumPage(int numPage) {
+        this.numPage = numPage;
+    }
+
+    public int getLastRecentPage() {
+        return lastRecentPage;
+    }
+
+    public void setLastRecentPage(int lastRecentPage) {
+        this.lastRecentPage = lastRecentPage;
+    }
+
+
 }

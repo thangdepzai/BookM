@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 
 
 import androidx.annotation.NonNull;
@@ -19,7 +21,7 @@ import com.samsung.bookm.Fragment.StatisticFragment;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    ViewPagerAdapter adapter;
     private static final String TAG = "MainActivity";
 
     BottomNavigationView bottomNavigationView;
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+        invalidateFragmentMenus(0);
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -69,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                invalidateFragmentMenus(position);
                 if (prevMenuItem != null) {
                     prevMenuItem.setChecked(false);
                 }
@@ -76,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     bottomNavigationView.getMenu().getItem(0).setChecked(false);
                 }
-                Log.d("page", "onPageSelected: "+position);
+                Log.d("SVMC", "onPageSelected: "+position);
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = bottomNavigationView.getMenu().getItem(position);
 
@@ -88,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       /*  //Disable ViewPager Swipe
+         //Disable ViewPager Swipe
        viewPager.setOnTouchListener(new View.OnTouchListener()
         {
             @Override
@@ -97,13 +102,13 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        */
 
-        setupViewPager(viewPager);
+
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         bookShelfFragment = new BookShelfFragment(this);
         scheduleFragment = new ScheduleFragment();
@@ -117,6 +122,14 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager.setAdapter(adapter);
     }
+
+    private void invalidateFragmentMenus(int position){
+        for(int i = 0; i < adapter.getCount(); i++){
+            adapter.getItem(i).setHasOptionsMenu(i == position);
+        }
+        invalidateOptionsMenu(); //or respectively its support method.
+    }
+
 
 
 }

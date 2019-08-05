@@ -2,73 +2,78 @@ package com.samsung.bookm.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.samsung.bookm.Interface.ITransferData;
+import com.samsung.bookm.Activity.ReadActivity;
+import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.R;
+
 
 import java.util.ArrayList;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder> {
 
-    ArrayList<String> bookNames;
-    ArrayList<Integer> bookImages;
     Context mContext;
-    ITransferData mITranferData;
+    ArrayList<Book> bookArr;
 
-    public BookAdapter(Context mContext, ArrayList<Integer> bookImages, ArrayList<String> bookNames, ITransferData mITranferData) {
-        this.bookImages = bookImages;
-        this.bookNames = bookNames;
+    public BookAdapter(Context mContext, ArrayList<Book> bookArr) {
         this.mContext = mContext;
-        this.mITranferData = mITranferData;
+        this.bookArr = bookArr;
     }
 
     @NonNull
     @Override
-    public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View itemView = inflater.inflate(R.layout.rowlayout, parent, false);
+        View itemView = inflater.inflate(R.layout.book_item, parent, false);
         return new BookViewHolder(itemView);
     }
 
+    @NonNull
+
     @Override
-    public void onBindViewHolder(@NonNull BookViewHolder holder, final int position) {
-        String name = bookNames.get(position);
-        holder.tv_book.setText(name);
-        int id_img = bookImages.get(position);
-        holder.image_view_book.setImageResource(id_img);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(@NonNull BookViewHolder bookViewHolder, int position) {
+        final Book book = bookArr.get(position);
+        bookViewHolder.imBookCover.setImageResource(R.mipmap.defbookcover);
+        bookViewHolder.tvBookName.setText(book.getName());
+        // short click
+        bookViewHolder.imBookCover.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-               // Intent intent = new Intent(mContext, Main2Activity.class);
-              //  mContext.startActivity(intent);
+            public void onClick(View view) {
+                Intent i = new Intent(mContext, ReadActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("exercise", book);
+                i.putExtra("READ_BOOK", bundle);
+                mContext.startActivity(i);
             }
         });
+
+        // long click
+        // TODO
     }
 
     @Override
     public int getItemCount() {
-        return bookNames.size();
+        return bookArr.size();
     }
 
     public class BookViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView image_view_book;
-        TextView tv_book;
+        ImageView imBookCover;
+        TextView tvBookName;
 
         public BookViewHolder(View itemView) {
             super(itemView);
-
-            image_view_book = (ImageView) itemView.findViewById(R.id.image_view_book);
-            tv_book = (TextView) itemView.findViewById(R.id.tv_book);
-
+            imBookCover = (ImageView) itemView.findViewById(R.id.book_cover);
+            tvBookName = (TextView) itemView.findViewById(R.id.book_name);
         }
     }
 }

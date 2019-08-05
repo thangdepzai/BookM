@@ -13,8 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.R;
-import com.samsung.bookm.model.Book;
 
 import java.util.ArrayList;
 
@@ -39,7 +39,7 @@ public class StatisticAdapter extends RecyclerView.Adapter<StatisticAdapter.Stat
     public void onBindViewHolder(@NonNull StatisticViewHolder statisticViewHolder,final int i) {
         Book book = arrBook.get(i);
         statisticViewHolder.imgBook.setBackgroundResource(R.drawable.bia_sach1);
-        statisticViewHolder.tvName.setText(book.getmName());
+        statisticViewHolder.tvName.setText(book.getName());
         Log.d("ds", String.valueOf(statisticViewHolder.tvName.getText()));
     }
 

@@ -13,8 +13,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.R;
-import com.samsung.bookm.model.Book;
 
 import java.util.ArrayList;
 
@@ -41,7 +41,7 @@ public class TickedListAdapter extends RecyclerView.Adapter<TickedListAdapter.Ti
     public void onBindViewHolder(@NonNull TickedListViewHolder tickedListViewHolder, final int i) {
         Book book = arrBook.get(i);
         tickedListViewHolder.imgTickedBook.setBackgroundResource(R.drawable.bia_sach2);
-        tickedListViewHolder.tvTickedName.setText(book.getmName());
+        tickedListViewHolder.tvTickedName.setText(book.getName());
 //        Log.d("ds",String.valueOf(tickedListViewHolder.tvName.getText()));
     }
 
