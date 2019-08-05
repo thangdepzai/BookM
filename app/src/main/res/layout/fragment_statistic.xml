@@ -8,19 +8,12 @@
     tools:context=".Fragment.StatisticFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?colorPrimary"
-        android:elevation="@dimen/elevation_app_bar">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="enterAlways|scroll|snap"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
-    </FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_listBook"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:scrollbars="horizontal"></androidx.recyclerview.widget.RecyclerView>
+
 
 </LinearLayout>
