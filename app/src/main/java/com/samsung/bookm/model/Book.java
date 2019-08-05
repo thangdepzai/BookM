@@ -13,6 +13,25 @@ public class Book implements Serializable {
     private String imgPath;
     private int numPage;
     private int lastRecentPage;
+
+    public int getTotalReadTime() {
+        return totalReadTime;
+    }
+
+    public void setTotalReadTime(int totalReadTime) {
+        this.totalReadTime = totalReadTime;
+    }
+
+    public int getLastReadTime() {
+        return lastReadTime;
+    }
+
+    public void setLastReadTime(int lastReadTime) {
+        this.lastReadTime = lastReadTime;
+    }
+
+    private int totalReadTime;
+    private int lastReadTime;
     private  int idImage;
 
     public Book() {}

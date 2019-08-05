@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AppDatabase {
     private MySQLiteOpenHelper mySQLiteOpenHelper;
@@ -28,7 +29,7 @@ public class AppDatabase {
         return instance;
     }
 
-    void insert(Book book) {
+    void insertBook(Book book) {
         SQLiteDatabase sqLiteDatabase = instance.mySQLiteOpenHelper.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -43,11 +44,18 @@ public class AppDatabase {
         sqLiteDatabase.insert(MySQLiteOpenHelper.BOOK_TABLE, null, contentValues);
     }
 
+    List<String> getAllGenre() {
+
+    };
+
+    Book getBookById() {};
+
+
     ArrayList<Book> getAllBook() {
         ArrayList<Book>  retArray = new ArrayList<>();
         SQLiteDatabase db = instance.mySQLiteOpenHelper.getReadableDatabase();
 
-        String sql = "SELECT * FROM " + MySQLiteOpenHelper.BOOK_TABLE + " " + MySQLiteOpenHelper.AUTHOR_TABLE + " " + MySQLiteOpenHelper.GENRE_TABLE + " " +
+        String sql = "SELECT * FROM " + MySQLiteOpenHelper.BOOK_TABLE + "," + MySQLiteOpenHelper.AUTHOR_TABLE + "," + MySQLiteOpenHelper.GENRE_TABLE + " " +
                 "WHERE " + MySQLiteOpenHelper.GENRE_TABLE + ".id = " + MySQLiteOpenHelper.BOOK_TABLE + "." + MySQLiteOpenHelper.BOOK_GENRE_ID + "  AND " +
                 MySQLiteOpenHelper.AUTHOR_ID + ".id = " + MySQLiteOpenHelper.BOOK_TABLE + "." + MySQLiteOpenHelper.BOOK_AUTHOR_ID + ';';
 
