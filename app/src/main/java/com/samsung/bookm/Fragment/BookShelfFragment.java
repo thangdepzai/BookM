@@ -99,7 +99,7 @@ public class BookShelfFragment extends Fragment  implements ITransferData {
 
 
 
-        mBookRecycler = (RecyclerView) view.findViewById(R.id.recycle_view);
+        mBookRecycler = (RecyclerView) view.findViewById(R.id.book_recycler);
 
         //tạo Grid với 3 cột
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext,3);
