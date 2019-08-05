@@ -9,43 +9,58 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.samsung.bookm.Activity.ReadActivity;
+import com.samsung.bookm.Adapter.BookAdapter;
 import com.samsung.bookm.Activity.SearchActivity;
+import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.R;
-import com.samsung.bookm.Util.PdfReaderUtils;
-
+import com.samsung.bookm.Util.IPdfReaderUtils;
 import static android.app.Activity.RESULT_OK;
+
+
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class BookShelfFragment extends Fragment {
+
     Toolbar toolbar;
-    PdfReaderUtils pdfReaderUtils = new PdfReaderUtils(getContext());
 
     private final static int REQUEST_CODE = 42;
     public static final int PERMISSION_CODE = 42042;
     public static final String SAMPLE_FILE = "sample.pdf";
     public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
 
+    RecyclerView mBookRecycler;
+    ArrayList<Book> listBooks;
+    BookAdapter adapter;
+
+
     public BookShelfFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        listBooks = new ArrayList<>();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,7 +68,9 @@ public class BookShelfFragment extends Fragment {
         Log.d("SVMC", "onCreateView BOOK");
         // Inflate the layout for this fragment
         View v=  inflater.inflate(R.layout.fragment_book_shelf, container, false);
-
+        toolbar = v.findViewById(R.id.toolbar);
+        toolbar.inflateMenu(R.menu.book_shelf_menu);
+        toolbar.setTitle(R.string.title_book_shelf_activity);
 
         return v;
     }
@@ -62,10 +79,6 @@ public class BookShelfFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d("SVMC", "onViewCreated BOOK");
-        toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.title_book_shelf_activity);
-
 
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -86,12 +99,13 @@ public class BookShelfFragment extends Fragment {
             }
         });
 
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.book_shelf_menu, menu);
-        super.onCreateOptionsMenu(menu,inflater);
+        mBookRecycler = (RecyclerView) view.findViewById(R.id.book_recycler);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
+        mBookRecycler.setLayoutManager(gridLayoutManager);
+        listBooks = new ArrayList<Book>();
+        getData();
+        adapter = new BookAdapter(getContext(), listBooks);
+        mBookRecycler.setAdapter(adapter);
     }
 
 
@@ -130,7 +144,11 @@ public class BookShelfFragment extends Fragment {
         if (requestCode == REQUEST_CODE){
             if(resultCode == RESULT_OK){
                 Uri uri = data.getData();
-                pdfReaderUtils.displayFromUri(uri);
+               Intent i = new Intent(getContext(), ReadActivity.class);
+               Bundle b = new Bundle();
+               i.putExtra("KEY_URI", uri+"");
+               startActivity(i);
+
             }
         }
     }
@@ -140,4 +158,9 @@ public class BookShelfFragment extends Fragment {
         super.onDestroy();
         Log.d("SVMC", "DESTROY BOOK");
     }
+    void getData() {
+
+    }
+
+
 }

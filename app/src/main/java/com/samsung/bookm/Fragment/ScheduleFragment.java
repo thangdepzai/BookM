@@ -38,7 +38,9 @@ public class ScheduleFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_schedule, container, false);
-
+        toolbar = v.findViewById(R.id.toolbar);
+        toolbar.inflateMenu(R.menu.schedule_menu);
+        toolbar.setTitle(R.string.title_schedule_activity);
 
         return v;
     }
@@ -46,10 +48,6 @@ public class ScheduleFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        setHasOptionsMenu(true);
-        toolbar.setTitle(R.string.title_schedule_activity);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -65,12 +63,5 @@ public class ScheduleFragment extends Fragment {
                 }
             }
         });
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.schedule_menu, menu);
-
     }
 }

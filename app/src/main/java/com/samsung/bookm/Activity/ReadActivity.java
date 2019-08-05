@@ -1,36 +1,47 @@
-package com.samsung.bookm.Util;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
+package com.samsung.bookm.Activity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.OpenableColumns;
-import android.widget.Toast;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.github.barteksc.pdfviewer.PDFView;
-import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
-import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
-import com.github.barteksc.pdfviewer.listener.OnPageErrorListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
-public class PdfReaderUtils implements OnPageChangeListener, OnLoadCompleteListener, OnPageErrorListener{
-    PDFView mPdfView;
-    Uri uri;
-    int pageNum = 0;
-    String pdfFileName = "";
+import com.samsung.bookm.Model.Book;
+import com.samsung.bookm.R;
+import com.samsung.bookm.Util.IPdfReaderUtils;
 
-    public PdfReaderUtils(Context context) {
-        this.context = context;
+public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
+    PDFView mPdfView;
+    String pdfFileName;
+    int pageNum=0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_read);
+        mPdfView = findViewById(R.id.pdfViewer);
+
+        Book mbook = (Book)getIntent().getSerializableExtra("READ_BOOK");
+
+        if(mbook != null)
+        {
+            String uriString = mbook.getBookPath();
+            Uri uri = Uri.parse(uriString);
+            displayFromUri(uri);
+            //do something
+        }
+
+        String uriS = getIntent().getStringExtra("KEY_URI");
+        if(uriS!=null){
+            Uri uri = Uri.parse(uriS);
+            displayFromUri(uri);
+        }
     }
 
-    Context context;
-
-
-
-
+    @Override
     public void displayFromUri(Uri uri) {
         pdfFileName = getFileName(uri);
         mPdfView.fromUri(uri)
@@ -38,7 +49,7 @@ public class PdfReaderUtils implements OnPageChangeListener, OnLoadCompleteListe
                 .onPageChange(this)
                 .enableAnnotationRendering(true)
                 .onLoad(this)
-                .scrollHandle(new DefaultScrollHandle(context))
+                .scrollHandle(new DefaultScrollHandle(this))
                 .spacing(10) // in dp
                 .onPageError(this)
                 .load();
@@ -47,7 +58,7 @@ public class PdfReaderUtils implements OnPageChangeListener, OnLoadCompleteListe
     public String getFileName(Uri uri) {
         String result = null;
         if (uri.getScheme().equals("content")) {
-            Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
             try {
                 if (cursor != null && cursor.moveToFirst()) {
                     result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
