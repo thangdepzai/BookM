@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,9 +20,11 @@ import android.view.animation.AlphaAnimation;
 import com.samsung.bookm.Adapter.IndexStatisticAdapter;
 import com.samsung.bookm.Adapter.StatisticAdapter;
 import com.samsung.bookm.Adapter.TickedListAdapter;
+import com.samsung.bookm.Model.Book;
+import com.samsung.bookm.Model.IndexStatistic;
 import com.samsung.bookm.R;
-import com.samsung.bookm.model.Book;
-import com.samsung.bookm.model.IndexStatistic;
+
+
 
 import java.util.ArrayList;
 
@@ -49,7 +52,10 @@ public class StatisticFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_statistic, container, false);
+        View v = inflater.inflate(R.layout.fragment_statistic, container, false);
+        Toolbar toolbar = v.findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.title_statistic_activity);
+        return v;
     }
 
     @Override
@@ -87,16 +93,16 @@ public class StatisticFragment extends Fragment {
         mIndexRecyclerView.setAdapter(mIndexStatisticAdapter);
     }
     private void getData() {
-        book.add(new Book("1", "Đắc nhân tâm", 3));
-        book.add(new Book("2", "Yêu trên từng ngón tay", 4));
-        book.add(new Book("3", "Hạt giống tâm hồn", 5));
-        book.add(new Book("4", "Bố già", 6));
-        book.add(new Book("5", "Sherlock Home", 7));
-        tickedBook.add(new Book("1", "Đắc nhân tâm", 3));
-        tickedBook.add(new Book("2", "Yêu trên từng ngón tay", 4));
-        tickedBook.add(new Book("3", "Hạt giống tâm hồn", 5));
-        tickedBook.add(new Book("4", "Bố già", 6));
-        tickedBook.add(new Book("5", "Sherlock Home", 7));
+        book.add(new Book(1, "Đắc nhân tâm", 3));
+        book.add(new Book(2, "Yêu trên từng ngón tay", 4));
+        book.add(new Book(3, "Hạt giống tâm hồn", 5));
+        book.add(new Book(4, "Bố già", 6));
+        book.add(new Book(5, "Sherlock Home", 7));
+        tickedBook.add(new Book(1, "Đắc nhân tâm", 3));
+        tickedBook.add(new Book(2, "Yêu trên từng ngón tay", 4));
+        tickedBook.add(new Book(3, "Hạt giống tâm hồn", 5));
+        tickedBook.add(new Book(4, "Bố già", 6));
+        tickedBook.add(new Book(5, "Sherlock Home", 7));
         indexStatistics.add(new IndexStatistic(2.1, "Số giờ đọc"));
         indexStatistics.add(new IndexStatistic(0.4, "Số giờ đọc"));
         indexStatistics.add(new IndexStatistic(1.2, "Số giờ đọc"));

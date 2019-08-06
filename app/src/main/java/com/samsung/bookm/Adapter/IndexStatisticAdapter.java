@@ -11,8 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.samsung.bookm.Model.IndexStatistic;
 import com.samsung.bookm.R;
-import com.samsung.bookm.model.IndexStatistic;
+
 
 import java.util.ArrayList;
 

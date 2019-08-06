@@ -29,13 +29,14 @@ public class AppDatabase {
         return instance;
     }
 
-    void insertBook(Book book) {
+    public void insertBook(Book book) {
         SQLiteDatabase sqLiteDatabase = instance.mySQLiteOpenHelper.getWritableDatabase();
+
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(MySQLiteOpenHelper.BOOK_NAME, book.getName());
-        contentValues.put(MySQLiteOpenHelper.BOOK_GENRE_ID, book.getGenre());
-        contentValues.put(MySQLiteOpenHelper.BOOK_AUTHOR_ID, book.getAuthor());
+        contentValues.put(MySQLiteOpenHelper.BOOK_GENRE_ID, book.getGenreId());
+        contentValues.put(MySQLiteOpenHelper.BOOK_AUTHOR, book.getAuthor());
         contentValues.put(MySQLiteOpenHelper.BOOK_NUM_PAGE, book.getNumPage());
         contentValues.put(MySQLiteOpenHelper.BOOK_LAST_RECENT_PAGE, book.getLastRecentPage());
         contentValues.put(MySQLiteOpenHelper.BOOK_IMG_PATH, book.getImgPath());
@@ -44,34 +45,48 @@ public class AppDatabase {
         sqLiteDatabase.insert(MySQLiteOpenHelper.BOOK_TABLE, null, contentValues);
     }
 
-    List<String> getAllGenre() {
 
+    public ArrayList<String> getAllGenre() {
+        ArrayList<String> listGenre = new ArrayList<>();
+
+        SQLiteDatabase db = instance.mySQLiteOpenHelper.getReadableDatabase();
+
+        String[] projection = {MySQLiteOpenHelper.GENRE_ID, MySQLiteOpenHelper.GENRE_NAME };
+        Cursor cursor = db.query(MySQLiteOpenHelper.GENRE_TABLE, projection, null, null, null, null, null );
+
+        while (cursor.moveToNext()) {
+            listGenre.add(cursor.getString(1));
+        }
+        cursor.close();
+
+        return listGenre;
     };
+//
+//    Book getBookById() {};
 
-    Book getBookById() {};
 
-
-    ArrayList<Book> getAllBook() {
+    public ArrayList<Book> getAllBook() {
         ArrayList<Book>  retArray = new ArrayList<>();
         SQLiteDatabase db = instance.mySQLiteOpenHelper.getReadableDatabase();
 
-        String sql = "SELECT * FROM " + MySQLiteOpenHelper.BOOK_TABLE + "," + MySQLiteOpenHelper.AUTHOR_TABLE + "," + MySQLiteOpenHelper.GENRE_TABLE + " " +
-                "WHERE " + MySQLiteOpenHelper.GENRE_TABLE + ".id = " + MySQLiteOpenHelper.BOOK_TABLE + "." + MySQLiteOpenHelper.BOOK_GENRE_ID + "  AND " +
-                MySQLiteOpenHelper.AUTHOR_ID + ".id = " + MySQLiteOpenHelper.BOOK_TABLE + "." + MySQLiteOpenHelper.BOOK_AUTHOR_ID + ';';
+        String[] projection = {MySQLiteOpenHelper.BOOK_ID, MySQLiteOpenHelper.BOOK_NAME, MySQLiteOpenHelper.BOOK_GENRE_ID, MySQLiteOpenHelper.BOOK_IMG_PATH,
+                MySQLiteOpenHelper.BOOK_FILE_PATH, MySQLiteOpenHelper.BOOK_LAST_RECENT_PAGE, MySQLiteOpenHelper.BOOK_NUM_PAGE,
+                MySQLiteOpenHelper.BOOK_TOTAL_READ_TIME, MySQLiteOpenHelper.BOOK_LAST_READ_TIME };
 
-        //String[] projection = {MySQLiteOpenHelper.BOOK_ID, MySQLiteOpenHelper.BOOK_NAME, MySQLiteOpenHelper.BOOK_GENRE, MySQLiteOpenHelper.BOOK_IMG_PATH, MySQLiteOpenHelper.BOOK_FILE_PATH, MySQLiteOpenHelper.BOOK_LAST_RECENT_PAGE, MySQLiteOpenHelper.BOOK_NUM_PAGE };
-        //Cursor cursor = db.query(MySQLiteOpenHelper.BOOK_TABLE, projection, null, null, null, null, null );
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = db.query(MySQLiteOpenHelper.BOOK_TABLE, projection, null , null, null, null, null );
 
         while (cursor.moveToNext()) {
             Book book = new Book();
             book.setId(cursor.getInt(0));
             book.setName(cursor.getString(1));
-            book.setGenre(cursor.getString(2));
+            book.setGenreId(cursor.getInt(2));
             book.setImgPath(cursor.getString(3));
             book.setBookPath(cursor.getString(4));
             book.setLastRecentPage(cursor.getInt(5));
             book.setNumPage(cursor.getInt(6));
+            book.setTotalReadTime(cursor.getInt(7));
+            book.setLastReadTime(cursor.getInt(8));
+
             retArray.add(book);
         }
 
