@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<resources>
+    <color name="colorPrimary">#212121</color>
+    <color name="colorPrimaryDark">#161616</color>
+    <color name="colorAccent">#009386</color>
+    <color name="colorGrounding">#202020</color>
+    <color name="colorForeground">#303030</color>
+    <color name="colorDivider">#000000</color>
+
+
+    <color name="colorRipple">#ff484848</color>
+    <color name="colorInactive">#ff909090</color>
+    <color name="colorPress">#ff515151</color>
+    <color name="colorPictureDefault">#fff9f9f9</color>
+
+
+    <color name="textPrimary">#d9ffffff</color>
+    <color name="textSecondary">#8affffff</color>
+    <color name="textAssist">#43ffffff</color>
+    <color name="textAssistSecondary">#808080</color>
+    <color name="textPrimaryInverted">#d9ffffff</color>
+    <color name="textSecondaryInverted">#8affffff</color>
+    <color name="textAssistInverted">#43ffffff</color>
+    <color name="textError">#ffe7492e</color>
+
+
+    <color name="color_bottom_primary">#4caf50</color>
+    <color name="text_bottom_primary">#d9ffffff</color>
+
+
+</resources>

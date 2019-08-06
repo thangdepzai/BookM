@@ -1,4 +1,4 @@
-package com.samsung.bookm.model;
+package com.samsung.bookm.Model;
 
 public class IndexStatistic {
     double index;

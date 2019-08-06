@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,6 +15,7 @@
         android:elevation="@dimen/elevation_app_bar">
 
         <androidx.appcompat.widget.Toolbar
+            android:background="@drawable/gradient_color_toolbar"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -24,15 +24,13 @@
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
     </FrameLayout>
 
-</LinearLayout>
-=======
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#D0D0CE"
     android:orientation="vertical"
-    tools:context=".Fragment.StatisticFragment">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -124,6 +122,4 @@
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
-
-
->>>>>>> 80bc15464492b8facfff7d6abd022b8e1dc423c5
+</LinearLayout>

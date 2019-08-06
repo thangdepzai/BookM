@@ -1,6 +1,7 @@
 package com.samsung.bookm;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -10,17 +11,20 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.samsung.bookm.Adapter.ViewPagerAdapter;
+import com.samsung.bookm.Data.SettingPreference;
 import com.samsung.bookm.Fragment.BookShelfFragment;
 import com.samsung.bookm.Fragment.ScheduleFragment;
 import com.samsung.bookm.Fragment.SettingFragment;
 import com.samsung.bookm.Fragment.StatisticFragment;
+import com.samsung.bookm.Interface.ISettingCallBack;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ISettingCallBack {
     ViewPagerAdapter adapter;
     private static final String TAG = "MainActivity";
 
@@ -31,10 +35,12 @@ public class MainActivity extends AppCompatActivity {
     ScheduleFragment scheduleFragment;
     SettingFragment settingFragment;
     StatisticFragment statisticFragment;
-
+    SettingPreference mSettingPreference ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSettingPreference = SettingPreference.getInstance(this);
+        initNightMode();
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -93,18 +99,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-         //Disable ViewPager Swipe
-       viewPager.setOnTouchListener(new View.OnTouchListener()
-        {
-            @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                return true;
-            }
-        });
+//         //Disable ViewPager Swipe
+//       viewPager.setOnTouchListener(new View.OnTouchListener()
+//        {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event)
+//            {
+//                return true;
+//            }
+//        });
 
 
 
+    }
+    @Override
+    public void initNightMode() {
+        int nightMode = mSettingPreference.getCurrNightMode();
+        AppCompatDelegate.setDefaultNightMode(nightMode);
+    }
+    @Override
+    public int getCurrentNightMode() {
+        return getResources().getConfiguration().uiMode
+                & Configuration.UI_MODE_NIGHT_MASK;
+    }
+
+    @Override
+    public void alternateNightMode(int currentNightMode) {
+        int newNightMode;
+        if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
+            newNightMode = AppCompatDelegate.MODE_NIGHT_NO;
+        } else {
+            newNightMode = AppCompatDelegate.MODE_NIGHT_YES;
+        }
+        mSettingPreference.changeNightMode(newNightMode);
+        recreate();
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -112,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
         bookShelfFragment = new BookShelfFragment(this);
         scheduleFragment = new ScheduleFragment();
-        settingFragment = new SettingFragment();
+        settingFragment = new SettingFragment(this);
         statisticFragment = new StatisticFragment();
 
         adapter.addFragment(bookShelfFragment);

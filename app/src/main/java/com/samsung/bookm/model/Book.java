@@ -6,25 +6,49 @@ public class Book implements Serializable {
     private int id;
     private String name;
     private int genreId;
-    private int authorId;
     private String genre;
     private String author;
     private String bookPath;
     private String imgPath;
     private int numPage;
     private int lastRecentPage;
+
+    public int getTotalReadTime() {
+        return totalReadTime;
+    }
+
+    public void setTotalReadTime(int totalReadTime) {
+        this.totalReadTime = totalReadTime;
+    }
+
+    public int getLastReadTime() {
+        return lastReadTime;
+    }
+
+    public void setLastReadTime(int lastReadTime) {
+        this.lastReadTime = lastReadTime;
+    }
+
+    private int totalReadTime;
+    private int lastReadTime;
     private  int idImage;
 
     public Book() {}
 
-    public Book(String name, int genreId, int authorId, String bookPath, String imgPath, int numPage, int lastRecentPage) {
+    public Book(String name, int genreId, String author, String bookPath, String imgPath, int numPage, int lastRecentPage) {
         this.name = name;
         this.genreId = genreId;
-        this.authorId = authorId;
+        this.author = author;
         this.bookPath = bookPath;
         this.imgPath = imgPath;
         this.numPage = numPage;
         this.lastRecentPage = lastRecentPage;
+    }
+
+    public Book(int id, String name, int idImage) {
+        this.id = id;
+        this.name = name;
+        this.idImage = idImage;
     }
 
     public int getIdImage() {
@@ -35,15 +59,6 @@ public class Book implements Serializable {
         this.idImage = idImage;
     }
 
-    public Book(String name, int genreId, int authorId, String bookPath, int idImage, int numPage, int lastRecentPage) {
-        this.name = name;
-        this.genreId = genreId;
-        this.authorId = authorId;
-        this.bookPath = bookPath;
-        this.idImage = idImage;
-        this.numPage = numPage;
-        this.lastRecentPage = lastRecentPage;
-    }
 
     public int getId() {
         return id;
@@ -69,13 +84,6 @@ public class Book implements Serializable {
         this.genreId = genreId;
     }
 
-    public int getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
-    }
 
     public String getGenre() {
         return genre;

@@ -1,8 +1,11 @@
 package com.samsung.bookm.Model;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
 
 class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
@@ -12,16 +15,14 @@ class MySQLiteOpenHelper extends SQLiteOpenHelper {
     public static final String BOOK_ID = "id";
     public static final String BOOK_NAME = "name";
     public static final String BOOK_GENRE_ID = "genre_id";
-    public static final String BOOK_AUTHOR_ID = "author_id";
+    public static final String BOOK_AUTHOR = "author";
     public static final String BOOK_FILE_PATH = "file_path";
     public static final String BOOK_NUM_PAGE = "num_page";
     public static final String BOOK_LAST_RECENT_PAGE = "last_recent_page";
     public static final String BOOK_IMG_PATH = "img_src";
     public static final String BOOK_DESCRIPTION = "description";
-
-    public static final String AUTHOR_TABLE = "author";
-    public static final String AUTHOR_ID = "id";
-    public static final String AUTHOR_NAME = "name";
+    public static final String BOOK_TOTAL_READ_TIME = "total_read_time";
+    public static final String BOOK_LAST_READ_TIME = "last_read_time";
 
     public static final String GENRE_TABLE = "genre";
     public static final String GENRE_ID = "id";
@@ -29,18 +30,23 @@ class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
 
     private String CREATE_BOOK_TABLE =
-            String.format("CREATE TABLE %s " +
-                            "(%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s INTEGER , %s INTEGER, %s INTEGER, %s INTEGER" +
-                            "FOREIGN KEY (%s) REFERENCES %s(%s) " +
-                            "FOREIGN KEY (%s) REFERENCES %s(%s));",
-                    BOOK_TABLE, BOOK_ID, BOOK_NAME, BOOK_DESCRIPTION, BOOK_FILE_PATH, BOOK_IMG_PATH,
-                    BOOK_AUTHOR_ID, BOOK_GENRE_ID, BOOK_NUM_PAGE, BOOK_LAST_RECENT_PAGE,
-                    BOOK_AUTHOR_ID, AUTHOR_TABLE, AUTHOR_ID, BOOK_GENRE_ID, GENRE_TABLE, GENRE_ID );
+            "CREATE TABLE " + BOOK_TABLE + " (" +
+                    BOOK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    BOOK_NAME + " TEXT," +
+                    BOOK_DESCRIPTION + " TEXT," +
+                    BOOK_FILE_PATH + " TEXT," +
+                    BOOK_IMG_PATH + " TEXT," +
+                    BOOK_AUTHOR + " TEXT," +
+                    BOOK_GENRE_ID + " INTEGER," +
+                    BOOK_NUM_PAGE + " INTEGER," +
+                    BOOK_LAST_RECENT_PAGE + " INTEGER," +
+                    BOOK_LAST_READ_TIME + " INTEGER," +
+                    BOOK_TOTAL_READ_TIME + " INTEGER," +
+                    "FOREIGN KEY (" + BOOK_GENRE_ID + ") REFERENCES " + GENRE_TABLE + "(" + GENRE_ID + ") )";
 
-    private String CREATE_AUTHOR_TABLE =
-            String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT ", AUTHOR_TABLE, AUTHOR_ID, AUTHOR_NAME);
     private String CREATE_GENRE_TABLE =
-            String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT ", GENRE_TABLE, GENRE_ID, GENRE_NAME);
+            String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT) ", GENRE_TABLE, GENRE_ID, GENRE_NAME);
+
 
     public MySQLiteOpenHelper(Context context) {
         super(context, DATABASE_NAME , null, DATABASE_VERSION);
@@ -49,13 +55,41 @@ class MySQLiteOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_GENRE_TABLE);
-        sqLiteDatabase.execSQL(CREATE_AUTHOR_TABLE);
         sqLiteDatabase.execSQL(CREATE_BOOK_TABLE);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(GENRE_NAME, "Action and Adventure");
+        sqLiteDatabase.insert(GENRE_TABLE, null, contentValues);
+        contentValues.put(GENRE_NAME, "Anthology");
+        sqLiteDatabase.insert(GENRE_TABLE, null, contentValues);
+        contentValues.put(GENRE_NAME, "Classic");
+        sqLiteDatabase.insert(GENRE_TABLE, null, contentValues);
+        contentValues.put(GENRE_NAME, "Comic and Graphic Novel");
+        sqLiteDatabase.insert(GENRE_TABLE, null, contentValues);
+        contentValues.put(GENRE_NAME, "Crime and Detective");
+        sqLiteDatabase.insert(GENRE_TABLE, null, contentValues);
+        contentValues.put(GENRE_NAME, "Drama");
+        sqLiteDatabase.insert(GENRE_TABLE, null, contentValues);
+        contentValues.put(GENRE_NAME, "Fan-Fiction");
+        sqLiteDatabase.insert(GENRE_TABLE, null, contentValues);
+        contentValues.put(GENRE_NAME, "Fantasy");
+        sqLiteDatabase.insert(GENRE_TABLE, null, contentValues);
+        contentValues.put(GENRE_NAME, "Horror");
+        sqLiteDatabase.insert(GENRE_TABLE, null, contentValues);
+        contentValues.put(GENRE_NAME, "Mystery");
+        sqLiteDatabase.insert(GENRE_TABLE, null, contentValues);
+        contentValues.put(GENRE_NAME, "Romance");
+        sqLiteDatabase.insert(GENRE_TABLE, null, contentValues);
+        contentValues.put(GENRE_NAME, "Science Fiction (Sci-Fi)");
+        sqLiteDatabase.insert(GENRE_TABLE, null, contentValues);
+        contentValues.put(GENRE_NAME, "Suspense/Thriller");
+        sqLiteDatabase.insert(GENRE_TABLE, null, contentValues);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        String DROP_SQL = String.format("DROP TABLE if EXIST %s", BOOK_TABLE);
-        sqLiteDatabase.execSQL(DROP_SQL);
+        String DROP_SQL_BOOK = String.format("DROP TABLE if EXIST %s", BOOK_TABLE);
+        String DROP_SQL_GENRE = String.format("DROP TABLE if EXIST %s", GENRE_TABLE);
+        sqLiteDatabase.execSQL(DROP_SQL_BOOK);
+        sqLiteDatabase.execSQL(DROP_SQL_GENRE);
     }
 }
