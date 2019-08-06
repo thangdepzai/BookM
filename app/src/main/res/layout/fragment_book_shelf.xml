@@ -14,6 +14,7 @@
         android:elevation="@dimen/elevation_app_bar">
 
         <androidx.appcompat.widget.Toolbar
+            android:background="@drawable/gradient_color_toolbar"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
