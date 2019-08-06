@@ -31,4 +31,5 @@
     <string name="book_author">Author:</string>
     <string name="book_chose_img">Book cover:</string>
     <string name="book_import">Import book:</string>
+    <string name="title_setting_activity">Setting</string>
 </resources>

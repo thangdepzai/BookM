@@ -78,4 +78,8 @@
     <color name="control_normal">#888888</color>
     <color name="fab_pressed">#546e7a</color>
     <color name="primary">#37474f</color>
+    <color name="color_bottom_primary">#4caf50</color>
+    <color name="text_bottom_primary">#212121</color>
+
+
 </resources>

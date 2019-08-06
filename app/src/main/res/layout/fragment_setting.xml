@@ -14,6 +14,7 @@
         android:elevation="@dimen/elevation_app_bar">
 
         <androidx.appcompat.widget.Toolbar
+            android:background="@drawable/gradient_color_toolbar"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -21,5 +22,10 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
     </FrameLayout>
+    <Button
+        android:layout_gravity="center"
+        android:id="@+id/sw_night_mode"
+        android:layout_width="100dp"
+        android:layout_height="50dp" />
 
 </LinearLayout>
