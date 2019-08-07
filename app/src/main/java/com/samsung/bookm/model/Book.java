@@ -1,7 +1,5 @@
 package com.samsung.bookm.Model;
 
-import android.graphics.Bitmap;
-
 import java.io.Serializable;
 
 public class Book implements Serializable {
@@ -47,11 +45,11 @@ public class Book implements Serializable {
         this.lastRecentPage = lastRecentPage;
     }
 
-//    public Book(int id, String name, int idImage) {
-//        this.id = id;
-//        this.name = name;
-//        this.idImage = idImage;
-//    }
+    public Book(int id, String name, int idImage) {
+        this.id = id;
+        this.name = name;
+        this.idImage = idImage;
+    }
 
     public int getIdImage() {
         return idImage;
