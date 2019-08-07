@@ -9,7 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:textColor="@color/textColor"
+        >
 
 
         <LinearLayout
@@ -18,11 +20,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:textColor="@color/textColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/book_name"
                 android:textSize="14sp"/>
             <EditText
+                android:textColor="@color/textColor"
                 android:id="@+id/et_book_name"
                 android:textSize="14sp"
                 android:layout_width="match_parent"
@@ -35,11 +39,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:textColor="@color/textColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/book_author"
                 android:textSize="14sp"/>
             <EditText
+                android:textColor="@color/textColor"
                 android:id="@+id/et_author"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -52,11 +58,13 @@
             android:layout_height="25dp"
             android:orientation="horizontal">
             <TextView
+                android:textColor="@color/textColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/book_genre"
                 android:textSize="14sp"/>
             <Spinner
+                android:outlineAmbientShadowColor="@color/textColor"
                 android:id="@+id/spn_genre"
                 android:layout_marginStart="80dp"
                 android:layout_marginLeft="80dp"
@@ -69,6 +77,7 @@
             android:layout_margin="20dp"
             android:orientation="horizontal">
             <TextView
+                android:textColor="@color/textColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -92,6 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:textColor="@color/textColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
@@ -102,7 +112,7 @@
                 android:layout_width="match_parent"
                 android:textSize="12sp"
                 android:layout_height="wrap_content"
-                android:text="Chose book"/>
+                android:text="@string/chose_book"/>
         </LinearLayout>
     <Button
         android:maxLines="1"
@@ -113,7 +123,7 @@
         android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add book"/>
+        android:text="@string/add_book"/>
 
 
     </LinearLayout>

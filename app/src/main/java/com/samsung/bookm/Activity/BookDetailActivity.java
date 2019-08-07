@@ -69,8 +69,13 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
         mTvAuthor.setText(mBook.getAuthor());
         mTvCategory.setText(listGenre.get(mBook.getGenreId()-1));
         mTvNbPage.setText(mBook.getNumPage() + "");
-        Uri imgUri = Uri.fromFile(new File(mBook.getImgPath()));
-        mIvBookCover.setImageURI(imgUri);
+        if(mBook.getImgPath() != null){
+            Uri imgUri = Uri.fromFile(new File(mBook.getImgPath()));
+            mIvBookCover.setImageURI(imgUri);
+        } else {
+            mIvBookCover.setImageResource(R.drawable.defbookcover);
+        }
+
 
         mBtnSaveInfo.setVisibility(View.GONE);
         mEdBookName.setVisibility(View.GONE);

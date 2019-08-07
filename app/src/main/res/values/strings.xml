@@ -11,7 +11,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="search_book_edit_hint">nhập từ khóa</string>
+    <string name="search_book_edit_hint">search key word</string>
     <string name="search">icon_search</string>
     <string name="add">icon_add_book</string>
     <string name="title_book_shelf_activity">My Books</string>
@@ -42,4 +42,14 @@
     <string name="date_time">2019/8/7 7:58pm</string>
     <string name="repeat_mode">Every 1 Hour(s)</string>
     <string name="mo_ta">Mô tả</string>
+    <string name="chose_book">Chose book</string>
+    <string name="add_book">Add book</string>
+    <string name="author">Author</string>
+    <string name="genre">Genre</string>
+    <string name="number_page">Number page</string>
+    <string name="read">Read</string>
+    <string name="change_info">Change Info</string>
+    <string name="remove_from_library">Remove from library</string>
+    <string name="save">Save</string>
+    <string name="book_shelf">Book shelf</string>
 </resources>
