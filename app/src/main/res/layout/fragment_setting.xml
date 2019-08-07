@@ -14,6 +14,7 @@
         app:layout_scrollFlags="enterAlways|scroll|snap"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <ImageView
         android:src="@drawable/settings3"
         android:layout_width="match_parent"
@@ -102,6 +103,8 @@
         android:layout_height="50dp"
         android:orientation="horizontal">
 
+
+
         <ImageView
             android:src="@drawable/ic_info_outline_black_24dp"
             android:layout_width="wrap_content"
@@ -117,6 +120,8 @@
             android:layout_height="match_parent" />
 
     </LinearLayout>
+
     </androidx.cardview.widget.CardView>
+
 
 </LinearLayout>

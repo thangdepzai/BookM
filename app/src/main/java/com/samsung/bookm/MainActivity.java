@@ -1,20 +1,27 @@
 package com.samsung.bookm;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.samsung.bookm.Activity.AddBookActivity;
 import com.samsung.bookm.Adapter.ViewPagerAdapter;
 import com.samsung.bookm.Data.SettingPreference;
 import com.samsung.bookm.Fragment.BookShelfFragment;
@@ -27,7 +34,7 @@ import com.samsung.bookm.Interface.ISettingCallBack;
 public class MainActivity extends AppCompatActivity implements ISettingCallBack {
     ViewPagerAdapter adapter;
     private static final String TAG = "MainActivity";
-
+    public static final int PERMISSION_CODE = 42042;
     BottomNavigationView bottomNavigationView;
     private ViewPager viewPager;
     MenuItem prevMenuItem=null;
@@ -39,9 +46,10 @@ public class MainActivity extends AppCompatActivity implements ISettingCallBack 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         mSettingPreference = SettingPreference.getInstance(this);
         initNightMode();
-        setContentView(R.layout.activity_main);
+
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -138,9 +146,9 @@ public class MainActivity extends AppCompatActivity implements ISettingCallBack 
     private void setupViewPager(ViewPager viewPager) {
          adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        bookShelfFragment = new BookShelfFragment(this);
+        bookShelfFragment = new BookShelfFragment();
         scheduleFragment = new ScheduleFragment();
-        settingFragment = new SettingFragment(this);
+        settingFragment = new SettingFragment();
         statisticFragment = new StatisticFragment();
 
         adapter.addFragment(bookShelfFragment);

@@ -37,4 +37,9 @@
     <string name="book_chose_img">Book cover:</string>
     <string name="book_import">Import book:</string>
     <string name="title_setting_activity">Setting</string>
+    <string name="attack_book">Attack Book</string>
+    <string name="title_book_schedule">Tôi thấy hoa vàng trên cỏ xanh</string>
+    <string name="date_time">2019/8/7 7:58pm</string>
+    <string name="repeat_mode">Every 1 Hour(s)</string>
+    <string name="mo_ta">Mô tả</string>
 </resources>

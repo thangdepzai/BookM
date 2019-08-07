@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.samsung.bookm.Data.ReminderDatabase;
+import com.samsung.bookm.Model.AppDatabase;
+import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.Model.Reminder;
 import com.samsung.bookm.R;
 import com.samsung.bookm.Receiver.AlarmReceiver;
@@ -29,6 +33,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -39,7 +44,7 @@ public class EditReminderActivity extends AppCompatActivity implements
 
     private Toolbar mToolbar;
     private EditText mTitleText;
-    private TextView mDateText, mTimeText, mRepeatText, mRepeatNoText, mRepeatTypeText;
+    private TextView mDateText, mTimeText, mRepeatText, mRepeatNoText, mRepeatTypeText, mBookId;
     private FloatingActionButton mFAB1;
     private FloatingActionButton mFAB2;
     private Switch mRepeatSwitch;
@@ -57,9 +62,8 @@ public class EditReminderActivity extends AppCompatActivity implements
     private long mRepeatTime;
     private Calendar mCalendar;
     private Reminder mReceivedReminder;
-    private ReminderDatabase rb;
     private AlarmReceiver mAlarmReceiver;
-
+    int bookid;
     // Constant Intent String
     public static final String EXTRA_REMINDER_ID = "Reminder_ID";
 
@@ -71,6 +75,7 @@ public class EditReminderActivity extends AppCompatActivity implements
     private static final String KEY_REPEAT_NO = "repeat_no_key";
     private static final String KEY_REPEAT_TYPE = "repeat_type_key";
     private static final String KEY_ACTIVE = "active_key";
+    private static final String KEY_BOOK_ID = "book_id";
 
     // Constant values in milliseconds
     private static final long milMinute = 60000L;
@@ -96,6 +101,8 @@ public class EditReminderActivity extends AppCompatActivity implements
         mFAB1 = (FloatingActionButton) findViewById(R.id.starred1);
         mFAB2 = (FloatingActionButton) findViewById(R.id.starred2);
         mRepeatSwitch = (Switch) findViewById(R.id.repeat_switch);
+        mBookId = findViewById(R.id.set_book);
+
 
         // Setup Toolbar
         setSupportActionBar(mToolbar);
@@ -122,8 +129,7 @@ public class EditReminderActivity extends AppCompatActivity implements
         mReceivedID = Integer.parseInt(getIntent().getStringExtra(EXTRA_REMINDER_ID));
 
         // Get reminder using reminder id
-        rb = new ReminderDatabase(this);
-        mReceivedReminder = rb.getReminder(mReceivedID);
+        mReceivedReminder = ReminderDatabase.getInstance(this).getReminder(mReceivedID);
 
         // Get values from reminder
         mTitle = mReceivedReminder.getmTitle();
@@ -134,6 +140,7 @@ public class EditReminderActivity extends AppCompatActivity implements
         mRepeatType = mReceivedReminder.getmRepeatType();
         mActive = mReceivedReminder.getmActive();
 
+
         // Setup TextViews using reminder values
         mTitleText.setText(mTitle);
         mDateText.setText(mDate);
@@ -141,7 +148,8 @@ public class EditReminderActivity extends AppCompatActivity implements
         mRepeatNoText.setText(mRepeatNo);
         mRepeatTypeText.setText(mRepeatType);
         mRepeatText.setText("Every " + mRepeatNo + " " + mRepeatType + "(s)");
-
+        bookid = mReceivedReminder.getmBookId();
+        mBookId.setText(AppDatabase.getInstance(this).getBookById(bookid).getName());
         // To save state on device rotation
         if (savedInstanceState != null) {
             String savedTitle = savedInstanceState.getString(KEY_TITLE);
@@ -169,6 +177,9 @@ public class EditReminderActivity extends AppCompatActivity implements
             mRepeatType = savedRepeatType;
 
             mActive = savedInstanceState.getString(KEY_ACTIVE);
+
+            mBookId.setText(AppDatabase.getInstance(this).getBookById(savedInstanceState.getInt(KEY_BOOK_ID)).getName());
+
         }
 
         // Setup up active buttons
@@ -216,6 +227,7 @@ public class EditReminderActivity extends AppCompatActivity implements
         outState.putCharSequence(KEY_REPEAT_NO, mRepeatNoText.getText());
         outState.putCharSequence(KEY_REPEAT_TYPE, mRepeatTypeText.getText());
         outState.putCharSequence(KEY_ACTIVE, mActive);
+        outState.putInt(KEY_BOOK_ID, bookid);
     }
 
     @Override
@@ -377,9 +389,10 @@ public class EditReminderActivity extends AppCompatActivity implements
         mReceivedReminder.setmRepeatNo(mRepeatNo);
         mReceivedReminder.setmRepeatType(mRepeatType);
         mReceivedReminder.setmActive(mActive);
+        mReceivedReminder.setmBookId(bookid);
 
         // Update reminder
-        rb.updateReminder(mReceivedReminder);
+        ReminderDatabase.getInstance(this).updateReminder(mReceivedReminder);
 
         // Set up calender for creating the notification
         mCalendar.set(Calendar.MONTH, --mMonth);
@@ -469,5 +482,36 @@ public class EditReminderActivity extends AppCompatActivity implements
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    public void setAttack(View view) {
+        Log.d("SVMC", "Them book");
+        // add a radio button list
+        final ArrayList<Book> arr = AppDatabase.getInstance(this).getAllBook();
+        final ArrayList<String> data = new ArrayList<>();
+        for(Book book : arr){
+            data.add(book.getName());
+            Log.d("SVMC",book.getName() );
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose book");
+
+        int checkedItem = 0; //this will checked the item when user open the dialog
+        builder.setSingleChoiceItems( data.toArray(new String[data.size()]), checkedItem, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                bookid = arr.get(which).getId();
+                mBookId.setText(arr.get(which).getName());
+            }
+        });
+
+        builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
