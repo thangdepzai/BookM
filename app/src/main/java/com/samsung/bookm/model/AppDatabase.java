@@ -176,4 +176,6 @@ public class AppDatabase {
         String[] whereArgs = new String[]{String.valueOf(id)};
         db.delete(MySQLiteOpenHelper.BOOK_TABLE, whereClause, whereArgs);
     }
+
 }
+

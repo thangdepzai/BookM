@@ -1,4 +1,9 @@
 <resources>
+
+    <string name="language">Language</string>
+    <string name="night_mode">Night mode</string>
+    <string name="application_info">Application information</string>
+
     <string name="app_name">bookM</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>

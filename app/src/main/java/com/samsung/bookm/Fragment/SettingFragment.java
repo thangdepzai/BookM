@@ -2,6 +2,8 @@ package com.samsung.bookm.Fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,10 +18,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.QuickContactBadge;
 import android.widget.Switch;
+import android.widget.Toast;
 
+
+import com.samsung.bookm.Activity.InformationActivity;
+import com.samsung.bookm.Activity.LanguageActivity;
 import com.samsung.bookm.Interface.ISettingCallBack;
+import com.samsung.bookm.MainActivity;
 import com.samsung.bookm.R;
 
 /**
@@ -27,49 +35,77 @@ import com.samsung.bookm.R;
  */
 public class SettingFragment extends Fragment {
     ISettingCallBack iSettingCallBack = (ISettingCallBack) getContext();
-    public SettingFragment() {
+    Context mContext;
+    LinearLayout mLanguage, mInformation;
+    Switch mSwitch;
+
+    public SettingFragment(Context context) {
+        mContext = context;
         // Required empty public constructor
     }
 
+    public SettingFragment() {
+        // Required empty public constructor
+    }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v= inflater.inflate(R.layout.fragment_setting, container, false);
+        View v = inflater.inflate(R.layout.fragment_setting, container, false);
         Toolbar toolbar = v.findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.title_setting_activity);
-        return v;
-    }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        iSettingCallBack = (ISettingCallBack) getContext();
-        Button sw_night_mode = view.findViewById(R.id.sw_night_mode);
-        sw_night_mode.setOnClickListener(new View.OnClickListener() {
-            @Override
+
+        mLanguage = v.findViewById(R.id.language);
+        mInformation = v.findViewById(R.id.app_information);
+        mSwitch = v.findViewById(R.id.switch_nightmode);
+
+        mLanguage.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if(iSettingCallBack==null){
+                Intent intent = new Intent(getContext(), LanguageActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+        iSettingCallBack = (ISettingCallBack) getContext();
+
+
+        mInformation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), InformationActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        int currentNightMode = getResources().getConfiguration().uiMode
+                & Configuration.UI_MODE_NIGHT_MASK;
+        switch (currentNightMode) {
+            case Configuration.UI_MODE_NIGHT_NO:
+                mSwitch.setChecked(false);
+                break;
+            case Configuration.UI_MODE_NIGHT_YES:
+                mSwitch.setChecked(true);
+                break;
+            case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                // We don't know what mode we're in, assume notnight
+                break;
+        }
+
+        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (iSettingCallBack == null) {
                     iSettingCallBack = (ISettingCallBack) getContext();
                 }
                 iSettingCallBack.alternateNightMode(iSettingCallBack.getCurrentNightMode());
             }
         });
-//        Switch mDarkMode=view.findViewById(R.id.sw_night_mode);
-//        mDarkMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if(iSettingCallBack==null){
-//                    iSettingCallBack = (ISettingCallBack) getContext();
-//                }
-//                Log.d("abcd",String.valueOf(iSettingCallBack.getCurrentNightMode()));
-//                if(isChecked){
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                }
-//
-//            }
-//        });
+
+
+        return v;
+
     }
 }

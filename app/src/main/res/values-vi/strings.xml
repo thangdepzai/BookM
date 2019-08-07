@@ -1,0 +1,40 @@
+<resources>
+
+    <string name="language">Ngôn ngữ</string>
+    <string name="night_mode">Chế độ ban đêm</string>
+    <string name="application_info">Thông tin ứng dụng</string>
+    
+    <string name="app_name">bookM</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_book_edit_hint">nhập từ khóa</string>
+    <string name="search">icon search</string>
+    <string name="add">icon them sach</string>
+    <string name="title_book_shelf_activity">Tủ sách </string>
+    <string name="repeat_type">Loại lặp</string>
+    <string name="repeat_no">Số lần lặp</string>
+    <string name="repeat">Mode lặp</string>
+    <string name="time">Thời gian</string>
+    <string name="date">Ngày tháng</string>
+    <string name="details">Chi tiết</string>
+    <string name="add_reminder">Thêm nhắc nhở</string>
+    <string name="title_activity_add_reminder">Thêm nhắc nhở</string>
+    <string name="repeat_off">chế độ lặp đã tắt</string>
+    <string name="title_activity_edit_reminder">Sửa nhắc nhở</string>
+    <string name="action_discard_reminder">Hủy thay đổi</string>
+    <string name="action_save_reminder">Lưu nhắc nhở</string>
+    <string name="title_schedule_activity">Nhắc nhở</string>
+    <string name="more_book">More book</string>
+    <string name="more_schedule">More schedule</string>
+    <string name="title_statistic_activity">Thống kê</string>
+    <string name="book_name">Tên sách:</string>
+    <string name="book_genre">Thể loại:</string>
+    <string name="book_author">Tác giả:</string>
+    <string name="book_chose_img">Ảnh bìa:</string>
+    <string name="book_import">Đính kèm:</string>
+    <string name="title_setting_activity">Cài đặt</string>
+</resources>
