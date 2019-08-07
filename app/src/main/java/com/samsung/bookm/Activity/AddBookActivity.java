@@ -1,9 +1,14 @@
 package com.samsung.bookm.Activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.samsung.bookm.Fragment.BookShelfFragment;
 import com.samsung.bookm.Model.AppDatabase;
 import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.R;
@@ -52,42 +58,30 @@ public class AddBookActivity extends AppCompatActivity {
         btnChoseImage = findViewById(R.id.ib_chose_image);
         btnChoseBook = findViewById(R.id.bt_chose_book_file);
         setupGenreSpiner();
-
+        btnAddBook.setClickable(false);
         btnChoseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, PICK_IMAGE);
             }
         });
 
         btnChoseBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btnAddBook.setClickable(false);
+                btnAddBook.setBackgroundColor(getResources().getColor(R.color.button_add_book_not_press));
                 Intent intent = new Intent();
                 intent.setType("application/pdf");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Book"), PICK_BOOK);
+                startActivityForResult(intent, PICK_BOOK);
             }
         });
 
-        btnAddBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String bookName = edtBookName.getText().toString();
-                if(bookName.equals("")) {
-                    Toast.makeText(mContext, "Please insert book's name", Toast.LENGTH_LONG).show();
-                } else {
-                    newBook.setName(bookName);
-                    newBook.setAuthor(edtAuthor.getText().toString());
-                    newBook.setGenreId(spnGenre.getSelectedItemPosition() + 1);
-                    AppDatabase.getInstance(mContext).insertBook(newBook);
-                    ArrayList<Book> bookDB = AppDatabase.getInstance(mContext).getAllBook();
-                }
-            }
-        });
+
 
 
     }
@@ -96,21 +90,44 @@ public class AddBookActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         if (requestCode == PICK_IMAGE) {
-            if(data != null) {
+            if(resultCode == RESULT_OK && data != null) {
                 Uri selectedImg = data.getData();
                 if(selectedImg != null) {
                     btnChoseImage.setImageURI(selectedImg);
-                    newBook.setImgPath(selectedImg.getPath());
+                    newBook.setImgPath(selectedImg+"");
                 }
 
             }
+
         }
-        if (requestCode == PICK_BOOK) {
-            if(data != null) {
+        else if (requestCode == PICK_BOOK) {
+            if(resultCode == RESULT_OK &&data != null) {
                 Uri selectedFile = data.getData();
                 if(selectedFile != null) {
-                    newBook.setBookPath(selectedFile.getPath());
-                    btnChoseBook.setText(selectedFile.getPath().substring(selectedFile.getPath().lastIndexOf("/")+1));
+                    newBook.setBookPath(selectedFile.toString());
+                    btnChoseBook.setText(selectedFile.toString());
+                    btnAddBook.setClickable(true);
+                    btnAddBook.setBackgroundColor(getResources().getColor(R.color.button_add_book_press));
+                    btnAddBook.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String bookName = edtBookName.getText().toString();
+                            if(bookName.equals("")) {
+                                Toast.makeText(mContext, "Please insert book's name", Toast.LENGTH_LONG).show();
+                            } else {
+                                newBook.setName(bookName);
+                                newBook.setAuthor(edtAuthor.getText().toString());
+                                newBook.setGenreId(spnGenre.getSelectedItemPosition() + 1);
+                                newBook.setLastRecentPage(0);
+                                newBook.setLastRecentPage(10);
+                                AppDatabase.getInstance(mContext).insertBook(newBook);
+                                Intent i = new Intent(getApplicationContext(), BookShelfFragment.class);
+                                startActivity(i);
+                                finish();
+
+                            }
+                        }
+                    });
                 }
             }
         }
@@ -122,4 +139,7 @@ public class AddBookActivity extends AppCompatActivity {
         ArrayAdapter genreAdapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, listGenre);
         spnGenre.setAdapter(genreAdapter);
     }
+
+
+
 }

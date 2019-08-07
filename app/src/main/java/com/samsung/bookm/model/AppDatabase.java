@@ -93,4 +93,29 @@ public class AppDatabase {
         cursor.close();
         return retArray;
     }
+    public Book getBookById(int id){
+        SQLiteDatabase db = instance.mySQLiteOpenHelper.getReadableDatabase();
+        String query = "SELECT * FROM " + MySQLiteOpenHelper.BOOK_TABLE+" WHERE "+MySQLiteOpenHelper.BOOK_ID + " = "+id;
+        Cursor cursor = db.rawQuery(query, null);
+        Book  book =null;
+        if (cursor != null)
+        {
+            if (cursor.moveToFirst())
+            {
+                book = new Book();
+
+                book.setId(cursor.getInt(cursor.getColumnIndex(MySQLiteOpenHelper.BOOK_ID)));
+                book.setName(cursor.getString(cursor.getColumnIndex(MySQLiteOpenHelper.BOOK_NAME)));
+                book.setGenreId(cursor.getInt(cursor.getColumnIndex(MySQLiteOpenHelper.BOOK_GENRE_ID)));
+                book.setImgPath(cursor.getString(cursor.getColumnIndex(MySQLiteOpenHelper.BOOK_IMG_PATH)));
+                book.setBookPath(cursor.getString(cursor.getColumnIndex(MySQLiteOpenHelper.BOOK_FILE_PATH)));
+                book.setLastRecentPage(cursor.getInt(cursor.getColumnIndex(MySQLiteOpenHelper.BOOK_LAST_RECENT_PAGE)));
+                book.setNumPage(cursor.getInt(cursor.getColumnIndex(MySQLiteOpenHelper.BOOK_NUM_PAGE)));
+                book.setTotalReadTime(cursor.getInt(cursor.getColumnIndex(MySQLiteOpenHelper.BOOK_TOTAL_READ_TIME)));
+                book.setLastReadTime(cursor.getInt(cursor.getColumnIndex(MySQLiteOpenHelper.BOOK_LAST_READ_TIME)));
+            }
+            cursor.close();
+        }
+        return book;
+    }
 }

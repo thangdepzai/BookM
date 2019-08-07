@@ -26,14 +26,11 @@ import com.samsung.bookm.R;
  * A simple {@link Fragment} subclass.
  */
 public class SettingFragment extends Fragment {
-    ISettingCallBack iSettingCallBack;
+    ISettingCallBack iSettingCallBack = (ISettingCallBack) getContext();
     public SettingFragment() {
         // Required empty public constructor
     }
-    public SettingFragment(ISettingCallBack context) {
-        iSettingCallBack = context;
-        // Required empty public constructor
-    }
+
 
 
     @Override
@@ -49,6 +46,7 @@ public class SettingFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        iSettingCallBack = (ISettingCallBack) getContext();
         Button sw_night_mode = view.findViewById(R.id.sw_night_mode);
         sw_night_mode.setOnClickListener(new View.OnClickListener() {
             @Override

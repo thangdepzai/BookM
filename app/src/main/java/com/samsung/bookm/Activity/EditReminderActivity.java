@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.samsung.bookm.Data.ReminderDatabase;
+import com.samsung.bookm.Model.AppDatabase;
+import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.Model.Reminder;
 import com.samsung.bookm.R;
 import com.samsung.bookm.Receiver.AlarmReceiver;
@@ -29,6 +32,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -39,7 +43,7 @@ public class EditReminderActivity extends AppCompatActivity implements
 
     private Toolbar mToolbar;
     private EditText mTitleText;
-    private TextView mDateText, mTimeText, mRepeatText, mRepeatNoText, mRepeatTypeText;
+    private TextView mDateText, mTimeText, mRepeatText, mRepeatNoText, mRepeatTypeText, mBookId;
     private FloatingActionButton mFAB1;
     private FloatingActionButton mFAB2;
     private Switch mRepeatSwitch;
@@ -59,7 +63,7 @@ public class EditReminderActivity extends AppCompatActivity implements
     private Reminder mReceivedReminder;
     private ReminderDatabase rb;
     private AlarmReceiver mAlarmReceiver;
-
+    int bookid;
     // Constant Intent String
     public static final String EXTRA_REMINDER_ID = "Reminder_ID";
 
@@ -71,6 +75,7 @@ public class EditReminderActivity extends AppCompatActivity implements
     private static final String KEY_REPEAT_NO = "repeat_no_key";
     private static final String KEY_REPEAT_TYPE = "repeat_type_key";
     private static final String KEY_ACTIVE = "active_key";
+    private static final String KEY_BOOK_ID = "book_id";
 
     // Constant values in milliseconds
     private static final long milMinute = 60000L;
@@ -96,6 +101,8 @@ public class EditReminderActivity extends AppCompatActivity implements
         mFAB1 = (FloatingActionButton) findViewById(R.id.starred1);
         mFAB2 = (FloatingActionButton) findViewById(R.id.starred2);
         mRepeatSwitch = (Switch) findViewById(R.id.repeat_switch);
+        mBookId = findViewById(R.id.set_book);
+
 
         // Setup Toolbar
         setSupportActionBar(mToolbar);
@@ -134,6 +141,7 @@ public class EditReminderActivity extends AppCompatActivity implements
         mRepeatType = mReceivedReminder.getmRepeatType();
         mActive = mReceivedReminder.getmActive();
 
+
         // Setup TextViews using reminder values
         mTitleText.setText(mTitle);
         mDateText.setText(mDate);
@@ -141,7 +149,8 @@ public class EditReminderActivity extends AppCompatActivity implements
         mRepeatNoText.setText(mRepeatNo);
         mRepeatTypeText.setText(mRepeatType);
         mRepeatText.setText("Every " + mRepeatNo + " " + mRepeatType + "(s)");
-
+        bookid = mReceivedReminder.getmBookId();
+        mBookId.setText(AppDatabase.getInstance(this).getBookById(bookid).getName());
         // To save state on device rotation
         if (savedInstanceState != null) {
             String savedTitle = savedInstanceState.getString(KEY_TITLE);
@@ -169,6 +178,9 @@ public class EditReminderActivity extends AppCompatActivity implements
             mRepeatType = savedRepeatType;
 
             mActive = savedInstanceState.getString(KEY_ACTIVE);
+
+            mBookId.setText(AppDatabase.getInstance(this).getBookById(savedInstanceState.getInt(KEY_BOOK_ID)).getName());
+
         }
 
         // Setup up active buttons
@@ -216,6 +228,7 @@ public class EditReminderActivity extends AppCompatActivity implements
         outState.putCharSequence(KEY_REPEAT_NO, mRepeatNoText.getText());
         outState.putCharSequence(KEY_REPEAT_TYPE, mRepeatTypeText.getText());
         outState.putCharSequence(KEY_ACTIVE, mActive);
+        outState.putInt(KEY_BOOK_ID, bookid);
     }
 
     @Override
@@ -377,6 +390,7 @@ public class EditReminderActivity extends AppCompatActivity implements
         mReceivedReminder.setmRepeatNo(mRepeatNo);
         mReceivedReminder.setmRepeatType(mRepeatType);
         mReceivedReminder.setmActive(mActive);
+        mReceivedReminder.setmBookId(bookid);
 
         // Update reminder
         rb.updateReminder(mReceivedReminder);
@@ -469,5 +483,42 @@ public class EditReminderActivity extends AppCompatActivity implements
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    public void setAttack(){
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose an book in Shelf");
+
+        // add a radio button list
+        final ArrayList<Book> arr = AppDatabase.getInstance(this).getAllBook();
+        final ArrayList<String> data = new ArrayList<>();
+        for(Book book : arr){
+            data.add(book.getName()+","+book.getGenre());
+        }
+        int checkedItem = 1; // cow
+        builder.setSingleChoiceItems((ListAdapter) data, checkedItem, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user checked an item
+
+            }
+        });
+
+        // add OK and Cancel buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user clicked OK
+                bookid = arr.get(which).getId();
+                mBookId.setText(data.get(which));
+
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
     }
 }

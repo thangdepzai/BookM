@@ -30,4 +30,8 @@
     <color name="text_bottom_primary">#d9ffffff</color>
 
 
+    <color name="button_add_book_not_press">@color/md_blue_grey_300</color>
+    <color name="button_add_book_press">@color/md_green_400</color>
+
+
 </resources>

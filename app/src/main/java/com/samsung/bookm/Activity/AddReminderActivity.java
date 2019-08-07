@@ -6,6 +6,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
 
 import com.samsung.bookm.Data.ReminderDatabase;
+import com.samsung.bookm.Model.AppDatabase;
+import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.Model.Reminder;
 import com.samsung.bookm.R;
 
@@ -20,9 +22,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -36,7 +41,7 @@ public class AddReminderActivity extends AppCompatActivity implements
 
     private Toolbar mToolbar;
     private EditText mTitleText;
-    private TextView mDateText, mTimeText, mRepeatText, mRepeatNoText, mRepeatTypeText;
+    private TextView mDateText, mTimeText, mRepeatText, mRepeatNoText, mRepeatTypeText, mBook;
     private FloatingActionButton mFAB1;
     private FloatingActionButton mFAB2;
     private Calendar mCalendar;
@@ -49,6 +54,8 @@ public class AddReminderActivity extends AppCompatActivity implements
     private String mRepeatNo;
     private String mRepeatType;
     private String mActive;
+    private String bookName;
+    private int bookid;
 
     // Values for orientation change
     private static final String KEY_TITLE = "title_key";
@@ -58,6 +65,7 @@ public class AddReminderActivity extends AppCompatActivity implements
     private static final String KEY_REPEAT_NO = "repeat_no_key";
     private static final String KEY_REPEAT_TYPE = "repeat_type_key";
     private static final String KEY_ACTIVE = "active_key";
+    private static final String KEY_BOOK_ID = "book_id";
 
     // Constant values in milliseconds
     private static final long milMinute = 60000L;
@@ -72,14 +80,17 @@ public class AddReminderActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_reminder);
         mToolbar =  findViewById(R.id.toolbar);
-        mTitleText = (EditText) findViewById(R.id.reminder_title);
-        mDateText = (TextView) findViewById(R.id.set_date);
-        mTimeText = (TextView) findViewById(R.id.set_time);
-        mRepeatText = (TextView) findViewById(R.id.set_repeat);
-        mRepeatNoText = (TextView) findViewById(R.id.set_repeat_no);
-        mRepeatTypeText = (TextView) findViewById(R.id.set_repeat_type);
-        mFAB1 = (FloatingActionButton) findViewById(R.id.starred1);
-        mFAB2 = (FloatingActionButton) findViewById(R.id.starred2);
+        mTitleText =  findViewById(R.id.reminder_title);
+        mDateText =  findViewById(R.id.set_date);
+        mTimeText =  findViewById(R.id.set_time);
+        mRepeatText =  findViewById(R.id.set_repeat);
+        mRepeatNoText =  findViewById(R.id.set_repeat_no);
+        mRepeatTypeText =  findViewById(R.id.set_repeat_type);
+        mFAB1 =  findViewById(R.id.starred1);
+        mFAB2 =  findViewById(R.id.starred2);
+        mBook = findViewById(R.id.set_book);
+
+        //TODO book id
 
         // Setup Toolbar
         setSupportActionBar(mToolbar);
@@ -169,6 +180,7 @@ public class AddReminderActivity extends AppCompatActivity implements
             mRepeatType = savedRepeatType;
 
             mActive = savedInstanceState.getString(KEY_ACTIVE);
+            mBook.setText(AppDatabase.getInstance(this).getBookById(savedInstanceState.getInt(KEY_BOOK_ID)).getName());
         }
 
         // Setup up active buttons
@@ -195,6 +207,7 @@ public class AddReminderActivity extends AppCompatActivity implements
         outState.putCharSequence(KEY_REPEAT_NO, mRepeatNoText.getText());
         outState.putCharSequence(KEY_REPEAT_TYPE, mRepeatTypeText.getText());
         outState.putCharSequence(KEY_ACTIVE, mActive);
+        outState.putInt(KEY_BOOK_ID, bookid);
     }
 
     // On clicking Time picker
@@ -317,13 +330,49 @@ public class AddReminderActivity extends AppCompatActivity implements
         });
         alert.show();
     }
+    public void setAttack(){
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose an book in Shelf");
 
+        // add a radio button list
+        final ArrayList<Book> arr = AppDatabase.getInstance(this).getAllBook();
+        final ArrayList<String> data = new ArrayList<>();
+        for(Book book : arr){
+            data.add(book.getName());
+        }
+        int checkedItem = 1;
+        builder.setSingleChoiceItems((ListAdapter) data, checkedItem, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user checked an item
+
+            }
+        });
+
+        // add OK and Cancel buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user clicked OK
+                bookid = arr.get(which).getId();
+                mBook.setText(data.get(which));
+
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
     // On clicking the save button
     public void saveReminder(){
         ReminderDatabase rb = new ReminderDatabase(this);
 
         // Creating Reminder
-        int ID = rb.addReminder(new Reminder(mTitle, mDate, mTime, mRepeat, mRepeatNo, mRepeatType, mActive));
+        int ID = rb.addReminder(new Reminder(mTitle, mDate, mTime, mRepeat, mRepeatNo, mRepeatType, mActive, bookid));
 
         // Set up calender for creating the notification
         mCalendar.set(Calendar.MONTH, --mMonth);
