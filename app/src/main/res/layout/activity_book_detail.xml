@@ -110,7 +110,17 @@
         android:id="@+id/btn_read"
         android:text="Read"
         android:layout_below="@id/tv_description"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_change_info"
+        android:text="Change Info"
+        android:layout_below="@id/btn_read"
+        android:layout_marginTop="5dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         />
