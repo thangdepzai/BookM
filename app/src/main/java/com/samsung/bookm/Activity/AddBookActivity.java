@@ -8,8 +8,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -29,11 +31,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class AddBookActivity extends AppCompatActivity {
+
     public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
     public static final int PERMISSION_CODE = 42042;
+
     Context mContext;
     EditText edtBookName;
     EditText edtAuthor;
@@ -94,13 +96,16 @@ public class AddBookActivity extends AppCompatActivity {
                     newBook.setAuthor(edtAuthor.getText().toString());
                     newBook.setGenreId(spnGenre.getSelectedItemPosition() + 1);
                     AppDatabase.getInstance(mContext).insertBook(newBook);
-                    ArrayList<Book> bookDB = AppDatabase.getInstance(mContext).getAllBook();
+                    Toast.makeText(mContext, newBook.getName() + " has been added to library", Toast.LENGTH_LONG).show();
+                    finish();
                 }
             }
         });
 
 
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -110,7 +115,8 @@ public class AddBookActivity extends AppCompatActivity {
                 Uri selectedImg = data.getData();
                 if(selectedImg != null) {
                     btnChoseImage.setImageURI(selectedImg);
-                    newBook.setImgPath(selectedImg.getPath());
+                    String imgPath = Utils.getPathFromUri(mContext, selectedImg);
+                    newBook.setImgPath(imgPath);
                 }
 
             }
@@ -123,7 +129,6 @@ public class AddBookActivity extends AppCompatActivity {
                     Log.d("SVMC", "onActivityResult: " +filePath);
                     newBook.setBookPath(filePath);
                     btnChoseBook.setText(Utils.getFileName(mContext, selectedFile));
-
                 }
             }
         }

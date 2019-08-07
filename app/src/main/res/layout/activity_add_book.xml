@@ -1,111 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.AddBookActivity">
-
     <LinearLayout
-        android:layout_margin="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/book_name"
-            android:textSize="20sp"/>
-        <EditText
-            android:id="@+id/et_book_name"
-            android:textSize="20sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/book_author"
-            android:textSize="20sp"/>
-        <EditText
-            android:id="@+id/et_author"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/book_genre"
-            android:textSize="20sp"/>
-        <Spinner
-            android:id="@+id/spn_genre"
-            android:layout_marginStart="80dp"
-            android:layout_marginLeft="80dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="@string/book_chose_img"
-            />
-        <ImageButton
-            app:srcCompat="@drawable/ic_insert_photo_black_50dp"
-            android:id="@+id/ib_chose_image"
-            android:layout_marginLeft="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginStart="50dp" />
 
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_margin="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="@string/book_import"/>
-        <Button
-            android:id="@+id/bt_chose_book_file"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/book_name"
+                android:textSize="14sp"/>
+            <EditText
+                android:id="@+id/et_book_name"
+                android:textSize="14sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
             android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_width="match_parent"
-            android:textSize="16sp"
             android:layout_height="wrap_content"
-            android:text="Chose book"/>
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/book_author"
+                android:textSize="14sp"/>
+            <EditText
+                android:id="@+id/et_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/book_genre"
+                android:textSize="14sp"/>
+            <Spinner
+                android:id="@+id/spn_genre"
+                android:layout_marginStart="80dp"
+                android:layout_marginLeft="80dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="@string/book_chose_img"
+                />
+            <ImageButton
+                app:srcCompat="@drawable/ic_insert_photo_black_50dp"
+                android:padding="0dp"
+                android:id="@+id/ib_chose_image"
+                android:layout_marginLeft="80dp"
+                android:scaleType="fitCenter"
+                android:layout_width="120dp"
+                android:layout_height="180dp"
+                android:layout_marginStart="80dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="@string/book_import"/>
+            <Button
+                android:id="@+id/bt_chose_book_file"
+                android:layout_marginLeft="20dp"
+                android:layout_width="match_parent"
+                android:textSize="12sp"
+                android:layout_height="wrap_content"
+                android:text="Chose book"/>
+        </LinearLayout>
+
+        <Button
+            android:maxLines="1"
+            android:background="@color/md_green_400"
+            android:textColor="@color/white"
+            android:id="@+id/bt_add_book"
+            android:layout_margin="20dp"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add book"/>
+
     </LinearLayout>
-
-    <Button
-        android:maxLines="1"
-        android:background="@color/md_green_400"
-        android:textColor="@color/white"
-        android:id="@+id/bt_add_book"
-        android:layout_margin="20dp"
-        android:textSize="20sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add book"/>
-
-</LinearLayout>
+</ScrollView>
