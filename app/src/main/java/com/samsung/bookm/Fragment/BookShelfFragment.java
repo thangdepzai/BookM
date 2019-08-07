@@ -29,6 +29,7 @@ import com.samsung.bookm.Activity.AddBookActivity;
 import com.samsung.bookm.Activity.ReadActivity;
 import com.samsung.bookm.Adapter.BookAdapter;
 import com.samsung.bookm.Activity.SearchActivity;
+import com.samsung.bookm.Model.AppDatabase;
 import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.Interface.ITransferData;
 import com.samsung.bookm.R;
@@ -107,14 +108,20 @@ public class BookShelfFragment extends Fragment  implements ITransferData {
         //tạo Grid với 3 cột
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext,3);
         mBookRecycler.setLayoutManager(gridLayoutManager);
-        listBooks = getData();
+        listBooks = AppDatabase.getInstance(mContext).getAllBook();
         adapter = new BookAdapter(mContext,listBooks );
         mBookRecycler.setAdapter(adapter);
         // Inflate the layout for this fragment
 
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        listBooks = AppDatabase.getInstance(mContext).getAllBook();
+        adapter = new BookAdapter(mContext,listBooks );
+        mBookRecycler.setAdapter(adapter);
+    }
 
     @Override
     public void delete(int position) {
@@ -158,10 +165,10 @@ public class BookShelfFragment extends Fragment  implements ITransferData {
         if (requestCode == REQUEST_CODE){
             if(resultCode == RESULT_OK){
                 Uri uri = data.getData();
-               Intent i = new Intent(getContext(), ReadActivity.class);
-               Bundle b = new Bundle();
-               i.putExtra("KEY_URI", uri+"");
-               startActivity(i);
+                Intent i = new Intent(getContext(), ReadActivity.class);
+                Bundle b = new Bundle();
+                i.putExtra("KEY_URI", uri+"");
+                startActivity(i);
 
             }
         }
