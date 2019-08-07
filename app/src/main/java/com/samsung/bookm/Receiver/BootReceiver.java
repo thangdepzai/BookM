@@ -42,11 +42,11 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
 
-            ReminderDatabase rb = new ReminderDatabase(context);
+
             mCalendar = Calendar.getInstance();
             mAlarmReceiver = new AlarmReceiver();
 
-            List<Reminder> reminders = rb.getAllReminders();
+            List<Reminder> reminders = ReminderDatabase.getInstance(context).getAllReminders();
 
             for (Reminder rm : reminders) {
                 mReceivedID = rm.getmID();

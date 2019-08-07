@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.samsung.bookm.Model.Reminder;
 import com.samsung.bookm.R;
 import com.samsung.bookm.Receiver.AlarmReceiver;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminderHolder> {
@@ -47,7 +49,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
 
     @Override
     public void onBindViewHolder(@NonNull final ReminderHolder holder, final int position) {
-        holder.txt_title.setText(arr.get(position).getmTitle());
+
         holder.txt_date.setText(arr.get(position).getmDate()+" "+arr.get(position).getmTime());
 
         if(arr.get(position).getmRepeat().equals("true")){
@@ -57,21 +59,29 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
         }
 
         Book book = AppDatabase.getInstance(context).getBookById(arr.get(position).getmBookId());
-        holder.img_book_cover.setImageURI(Uri.parse(book.getImgPath()));
+        holder.txt_title.setText(book.getName());
+        holder.txt_mota.setText(arr.get(position).getmTitle());
+        if(book.getImgPath() != null) {
+            Uri bookCover = Uri.fromFile(new File(book.getImgPath()));
+            Log.d("SVMC", "onBindViewHolder: " + book.getImgPath());
+            holder.img_book_cover.setImageURI(bookCover);
+        } else {
+            holder.img_book_cover.setImageResource(R.mipmap.defbookcover);
+        }
         holder.progress_bar.setProgress((int)book.getLastRecentPage()/book.getNumPage());
         if(arr.get(position).getmActive().equals("true")){
-            holder.fab_notifi_on.setVisibility(View.GONE);
-            holder.fab_notifi_off.setVisibility(View.VISIBLE);
+            holder.fab_notifi_on.setIconDrawable(context.getResources().getDrawable(R.drawable.ic_notifications_on_white_24dp));
         }else{
-            holder.fab_notifi_off.setVisibility(View.GONE);
-            holder.fab_notifi_on.setVisibility(View.VISIBLE);
+            holder.fab_notifi_on.setIconDrawable(context.getResources().getDrawable(R.drawable.ic_notifications_off_grey600_24dp));
         }
+        holder.txt_on_page.setText("On page "+book.getLastRecentPage() +" of "+book.getNumPage());
+
 
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(context, EditReminderActivity.class);
-                i.putExtra(EditReminderActivity.EXTRA_REMINDER_ID, arr.get(position).getmID());
+                i.putExtra(EditReminderActivity.EXTRA_REMINDER_ID, arr.get(position).getmID()+"");
                 context.startActivity(i);
             }
         });
@@ -84,13 +94,13 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
                                 // xoa database
-                                ReminderDatabase db = new ReminderDatabase(context);
-                                db.deleteReminder(arr.get(position));
+                                ;
+                                ReminderDatabase.getInstance(context).deleteReminder(arr.get(position));
                                 //cap nhat giao dien
-                                arr.remove(position);
+
                                 holder.alarmReceiver.cancelAlarm(context, arr.get(position).getmID());
+                                arr.remove(position);
                                 notifyItemRemoved(position);
-                                notifyItemRangeChanged(position, arr.size());
                                 break;
                         }
                     }
@@ -114,7 +124,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
 
     public class ReminderHolder extends RecyclerView.ViewHolder {
         ImageView img_book_cover;
-        TextView txt_title, txt_on_page, txt_date, txt_mode_repeat;
+        TextView txt_title, txt_on_page, txt_date, txt_mode_repeat, txt_mota;
         ProgressBar progress_bar;
         FloatingActionButton fab_notifi_on,fab_notifi_off ;
         CardView cv;
@@ -128,7 +138,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
             txt_mode_repeat = itemView.findViewById(R.id.txt_mode_repeat);
             progress_bar = itemView.findViewById(R.id.progess_bar);
             fab_notifi_on = itemView.findViewById(R.id.fab_notifi_on);
-            fab_notifi_off = itemView.findViewById(R.id.fab_notifi_on);
+            txt_mota = itemView.findViewById(R.id.txt_mota);
             cv = itemView.findViewById(R.id.cv);
             alarmReceiver = new AlarmReceiver();
         }

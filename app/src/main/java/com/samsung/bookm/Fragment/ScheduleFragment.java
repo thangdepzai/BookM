@@ -79,9 +79,17 @@ public class ScheduleFragment extends Fragment {
             }
         });
     }
+
     public ArrayList<Reminder> getData(){
-        ReminderDatabase  rb = new ReminderDatabase(getContext());
-        ArrayList<Reminder> arr = (ArrayList<Reminder>) rb.getAllReminders();
+
+        ArrayList<Reminder> arr = (ArrayList<Reminder>) ReminderDatabase.getInstance(getContext()).getAllReminders();
         return arr;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ReminderAdapter adapter = new ReminderAdapter(getData(), getContext());
+        rv_schedule.setAdapter(adapter);
     }
 }

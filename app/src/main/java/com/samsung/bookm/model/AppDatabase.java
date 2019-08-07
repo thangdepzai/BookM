@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,8 +62,7 @@ public class AppDatabase {
 
         return listGenre;
     };
-//
-//    Book getBookById() {};
+
 
 
     public ArrayList<Book> getAllBook() {
@@ -86,6 +86,7 @@ public class AppDatabase {
             book.setNumPage(cursor.getInt(6));
             book.setTotalReadTime(cursor.getInt(7));
             book.setLastReadTime(cursor.getInt(8));
+            Log.d("SVMC", "getAllBook: " + book.getBookPath());
 
             retArray.add(book);
         }

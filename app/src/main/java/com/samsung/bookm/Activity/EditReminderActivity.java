@@ -62,7 +62,6 @@ public class EditReminderActivity extends AppCompatActivity implements
     private long mRepeatTime;
     private Calendar mCalendar;
     private Reminder mReceivedReminder;
-    private ReminderDatabase rb;
     private AlarmReceiver mAlarmReceiver;
     int bookid;
     // Constant Intent String
@@ -130,8 +129,7 @@ public class EditReminderActivity extends AppCompatActivity implements
         mReceivedID = Integer.parseInt(getIntent().getStringExtra(EXTRA_REMINDER_ID));
 
         // Get reminder using reminder id
-        rb = new ReminderDatabase(this);
-        mReceivedReminder = rb.getReminder(mReceivedID);
+        mReceivedReminder = ReminderDatabase.getInstance(this).getReminder(mReceivedID);
 
         // Get values from reminder
         mTitle = mReceivedReminder.getmTitle();
@@ -394,7 +392,7 @@ public class EditReminderActivity extends AppCompatActivity implements
         mReceivedReminder.setmBookId(bookid);
 
         // Update reminder
-        rb.updateReminder(mReceivedReminder);
+        ReminderDatabase.getInstance(this).updateReminder(mReceivedReminder);
 
         // Set up calender for creating the notification
         mCalendar.set(Calendar.MONTH, --mMonth);
@@ -501,15 +499,14 @@ public class EditReminderActivity extends AppCompatActivity implements
         builder.setSingleChoiceItems( data.toArray(new String[data.size()]), checkedItem, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                bookid = arr.get(which).getId();
+                mBookId.setText(arr.get(which).getName());
             }
         });
 
         builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                bookid = arr.get(which).getId();
-                mBookId.setText(arr.get(which).getName());
                 dialog.dismiss();
             }
         });

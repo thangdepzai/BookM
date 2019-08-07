@@ -68,10 +68,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
             @Override
             public void onClick(View view) {
 
-                    Intent i = new Intent(mContext, ReadActivity.class);
-                    i.putExtra("KEY_URI", bookArr.get(position).getBookPath());
-                    Log.d("SVMC",bookArr.get(position).getBookPath() );
-                    mContext.startActivity(i);
+                Intent i = new Intent(mContext, ReadActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("exercise", book);
+                i.putExtra("READ_BOOK", bundle);
+                mContext.startActivity(i);
 
             }
         });

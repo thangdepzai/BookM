@@ -333,10 +333,8 @@ public class AddReminderActivity extends AppCompatActivity implements
     }
     // On clicking the save button
     public void saveReminder(){
-        ReminderDatabase rb = new ReminderDatabase(this);
-
         // Creating Reminder
-        int ID = rb.addReminder(new Reminder(mTitle, mDate, mTime, mRepeat, mRepeatNo, mRepeatType, mActive, bookid));
+        int ID = ReminderDatabase.getInstance(this).addReminder(new Reminder(mTitle, mDate, mTime, mRepeat, mRepeatNo, mRepeatType, mActive, bookid));
 
         // Set up calender for creating the notification
         mCalendar.set(Calendar.MONTH, --mMonth);
@@ -475,19 +473,20 @@ public class AddReminderActivity extends AppCompatActivity implements
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Choose book");
 
-        int checkedItem = 0; //this will checked the item when user open the dialog
+        int checkedItem =-1;
         builder.setSingleChoiceItems( data.toArray(new String[data.size()]), checkedItem, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                Toast.makeText(getApplicationContext(),which +" ", Toast.LENGTH_SHORT ).show();
+                bookid = arr.get(which).getId();
+                mBook.setText(arr.get(which).getName());
             }
         });
 
         builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                bookid = arr.get(which).getId();
-                mBook.setText(arr.get(which).getName());
+
                 dialog.dismiss();
             }
         });

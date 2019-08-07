@@ -15,6 +15,7 @@ import java.util.List;
 
 
 public class ReminderDatabase extends SQLiteOpenHelper {
+    static ReminderDatabase instance = null;
     // Database Version
     private static final int DATABASE_VERSION = 1;
 
@@ -35,8 +36,15 @@ public class ReminderDatabase extends SQLiteOpenHelper {
     private static final String KEY_ACTIVE = "active";
     private static final String KEY_BOOK_ID = "bookid";
 
-    public ReminderDatabase(Context context) {
+    private ReminderDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+    public  static  ReminderDatabase getInstance(Context context){
+        if(instance==null){
+            instance = new ReminderDatabase(context);
+        }
+        return instance;
+
     }
 
     // Creating Tables

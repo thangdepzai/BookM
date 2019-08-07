@@ -13,6 +13,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_marginTop="12dp"
+            app:cardBackgroundColor="@color/schedule"
             android:layout_marginStart="12dp"
             android:layout_marginRight="12dp"
             android:layout_marginEnd="20dp"
@@ -73,7 +74,6 @@
                         android:layout_height="10dp"
                         android:layout_marginEnd="40dp"
                         android:layout_marginLeft="40dp"
-                        android:background="#69f0ae"
                         android:max="10" />
 
                     <TextView
@@ -90,6 +90,13 @@
                         android:layout_height="0dp"
                         android:layout_weight="0.5"
                         android:text="@string/repeat_mode"
+                        android:textColor="@color/textPrimary" />
+                    <TextView
+                        android:id="@+id/txt_mota"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.5"
+                        android:text="@string/mo_ta"
                         android:textColor="@color/textPrimary" />
 
                 </LinearLayout>
@@ -108,18 +115,6 @@
         android:clickable="true"
         app:fab_size="mini"
         fab:fab_icon="@drawable/ic_notifications_on_white_24dp"
-        fab:fab_colorNormal="@color/accent"
-        fab:fab_colorPressed="@color/fab_pressed"
-        app:layout_anchor="@id/cv"
-        app:layout_anchorGravity="center_vertical|end" />
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_notifi_off"
-        android:layout_width="45dp"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:fab_size="mini"
-        android:visibility="gone"
-        fab:fab_icon="@drawable/ic_notifications_off_white_24dp"
         fab:fab_colorNormal="@color/accent"
         fab:fab_colorPressed="@color/fab_pressed"
         app:layout_anchor="@id/cv"

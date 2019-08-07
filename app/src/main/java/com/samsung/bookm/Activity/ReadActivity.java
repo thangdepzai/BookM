@@ -18,9 +18,12 @@ import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.R;
 import com.samsung.bookm.Util.IPdfReaderUtils;
 
-import static androidx.constraintlayout.widget.Constraints.TAG;
+import java.io.File;
+import java.util.Objects;
+
 
 public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
+    public static final String KEY_URI = "KEY_URI";
     PDFView mPdfView;
     String pdfFileName;
     int pageNum=0;
@@ -30,27 +33,28 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
         mPdfView = findViewById(R.id.pdfViewer);
-
-//        Book mbook = (Book)getIntent().getSerializableExtra("READ_BOOK");
-////
-////        if(mbook != null)
-////        {
-////            String uriString = mbook.getBookPath();
-////            Uri uri = Uri.parse(uriString);
-////            displayFromUri(uri);
-////            //do something
-//        }
-
+        Bundle bundle = getIntent().getBundleExtra("READ_BOOK");
+        if(bundle!=null){
+            Book mbook = (Book)bundle.getSerializable("exercise");
+            if(mbook != null)
+            {
+                Log.d("SVMC", "onCreate: " + mbook.getBookPath());
+                String uriString = mbook.getBookPath();
+                Uri uri = Uri.fromFile(new File(uriString));
+                pageNum = mbook.getLastRecentPage();
+                displayFromUri(uri);
+                //do something
+            }
+        }
         String uriS = getIntent().getStringExtra("KEY_URI");
         if(uriS!=null && isStoragePermissionGranted()){
-            Uri uri = Uri.parse(uriS);
+            Uri uri = Uri.fromFile(new File(uriS));
             displayFromUri(uri);
         }
     }
 
     @Override
     public void displayFromUri(Uri uri) {
-        pdfFileName = getFileName(uri);
         mPdfView.fromUri(uri)
                 .defaultPage(pageNum)
                 .onPageChange(this)
@@ -62,25 +66,11 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
                 .load();
     }
 
+    @Override
     public String getFileName(Uri uri) {
-        String result = null;
-        if (uri.getScheme().equals("content")) {
-            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-            try {
-                if (cursor != null && cursor.moveToFirst()) {
-                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                }
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
-                }
-            }
-        }
-        if (result == null) {
-            result = uri.getLastPathSegment();
-        }
-        return result;
+        return null;
     }
+
 
     @Override
     public void loadComplete(int nbPages) {
@@ -120,7 +110,6 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
             Log.v("SVMC","Permission: "+permissions[0]+ "was "+grantResults[0]);
-            //resume tasks needing this permission
         }
     }
 
