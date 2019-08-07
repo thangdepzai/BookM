@@ -114,7 +114,7 @@ public class AddBookActivity extends AppCompatActivity {
                     Log.d("SVMC", "onActivityResult: " +filePath);
                     newBook.setBookPath(filePath);
                     btnChoseBook.setText(Utils.getFileName(mContext, selectedFile));
-                    btnAddBook.setClickable(true);
+    btnAddBook.setClickable(true);
                     btnAddBook.setBackgroundColor(getResources().getColor(R.color.button_add_book_press));
                     btnAddBook.setOnClickListener(new View.OnClickListener() {
                         @Override

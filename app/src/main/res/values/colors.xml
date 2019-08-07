@@ -85,10 +85,11 @@
     <color name="color_bottom_primary">#4caf50</color>
     <color name="text_bottom_primary">#212121</color>
 
+
     <color name ="setting">#d9ffffff</color>
     <color name="button_add_book_not_press">@color/md_grey_600</color>
     <color name="button_add_book_press">@color/md_green_400</color>
     <color name="schedule" >@color/white_A85</color>
->>>>>>> develop
+
 
 </resources>
