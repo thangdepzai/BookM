@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
+import com.samsung.bookm.Model.AppDatabase;
 import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.R;
 import com.samsung.bookm.Util.IPdfReaderUtils;
@@ -27,6 +28,8 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
     PDFView mPdfView;
     String pdfFileName;
     int pageNum=0;
+    Book mBook;
+    Long startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +37,10 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
         setContentView(R.layout.activity_read);
         mPdfView = findViewById(R.id.pdfViewer);
         Bundle bundle = getIntent().getBundleExtra("READ_BOOK");
-        if(bundle!=null){
-            Book mbook = (Book)bundle.getSerializable("exercise");
-            if(mbook != null)
-            {
+
+        if (bundle != null) {
+            Book mbook = (Book) bundle.getSerializable("exercise");
+            if (mbook != null) {
                 Log.d("SVMC", "onCreate: " + mbook.getBookPath());
                 String uriString = mbook.getBookPath();
                 Uri uri = Uri.fromFile(new File(uriString));
@@ -45,18 +48,19 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
                 displayFromUri(uri);
                 //do something
             }
-        }
-        String uriS = getIntent().getStringExtra("KEY_URI");
-        if(uriS!=null && isStoragePermissionGranted()){
-            Uri uri = Uri.fromFile(new File(uriS));
-            displayFromUri(uri);
+
+            String uriS = getIntent().getStringExtra("KEY_URI");
+            if (uriS != null && isStoragePermissionGranted()) {
+                Uri uri = Uri.fromFile(new File(uriS));
+                displayFromUri(uri);
+            }
         }
     }
 
     @Override
     public void displayFromUri(Uri uri) {
         mPdfView.fromUri(uri)
-                .defaultPage(pageNum)
+                .defaultPage(mBook.getLastRecentPage())
                 .onPageChange(this)
                 .enableAnnotationRendering(true)
                 .onLoad(this)
@@ -74,12 +78,14 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
 
     @Override
     public void loadComplete(int nbPages) {
-
+        Log.d("PDF", "loadComplete: " + nbPages);
+        AppDatabase.getInstance(this).updateBookNumPage(mBook.getId(), nbPages);
+        startTime = System.currentTimeMillis()/1000;
     }
 
     @Override
     public void onPageChanged(int page, int pageCount) {
-
+        AppDatabase.getInstance(this).updateLastReadPage(mBook.getId(), page);
     }
 
     @Override
@@ -111,6 +117,15 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
         if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
             Log.v("SVMC","Permission: "+permissions[0]+ "was "+grantResults[0]);
         }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Long endTime = System.currentTimeMillis()/1000;
+        Long readTime = mBook.getTotalReadTime() + endTime - startTime;
+        AppDatabase.getInstance(this).updateReadTime(mBook.getId(), readTime, endTime);
     }
 
 }

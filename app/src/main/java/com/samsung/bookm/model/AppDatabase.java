@@ -46,6 +46,39 @@ public class AppDatabase {
         sqLiteDatabase.insert(MySQLiteOpenHelper.BOOK_TABLE, null, contentValues);
     }
 
+    public void updateBookNumPage(int bookId,int nbPages) {
+        SQLiteDatabase sqLiteDatabase = instance.mySQLiteOpenHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MySQLiteOpenHelper.BOOK_NUM_PAGE, nbPages);
+        String whereClause = MySQLiteOpenHelper.BOOK_ID + " = ?";
+        String[] whereArg = {String.valueOf(bookId)};
+
+        sqLiteDatabase.update(MySQLiteOpenHelper.BOOK_TABLE,contentValues, whereClause, whereArg );
+    }
+
+    public void updateLastReadPage(int bookId,int lPage) {
+        SQLiteDatabase sqLiteDatabase = instance.mySQLiteOpenHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MySQLiteOpenHelper.BOOK_LAST_RECENT_PAGE, lPage);
+        String whereClause = MySQLiteOpenHelper.BOOK_ID + " = ?";
+        String[] whereArg = {String.valueOf(bookId)};
+
+        sqLiteDatabase.update(MySQLiteOpenHelper.BOOK_TABLE,contentValues, whereClause, whereArg );
+    }
+
+    public void updateReadTime(int bookId,Long duration, Long endTime) {
+        SQLiteDatabase sqLiteDatabase = instance.mySQLiteOpenHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MySQLiteOpenHelper.BOOK_LAST_READ_TIME, endTime);
+        contentValues.put(MySQLiteOpenHelper.BOOK_TOTAL_READ_TIME, duration);
+
+        String whereClause = MySQLiteOpenHelper.BOOK_ID + " = ?";
+        String[] whereArg = {String.valueOf(bookId)};
+
+        sqLiteDatabase.update(MySQLiteOpenHelper.BOOK_TABLE,contentValues, whereClause, whereArg );
+
+    }
+
 
     public ArrayList<String> getAllGenre() {
         ArrayList<String> listGenre = new ArrayList<>();
@@ -62,8 +95,6 @@ public class AppDatabase {
 
         return listGenre;
     };
-
-
 
     public ArrayList<Book> getAllBook() {
         ArrayList<Book>  retArray = new ArrayList<>();

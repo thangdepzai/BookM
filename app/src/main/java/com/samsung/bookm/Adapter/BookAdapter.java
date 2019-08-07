@@ -61,7 +61,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
 
         }
         bookViewHolder.tvBookName.setText(book.getName());
-        int progress = book.getNumPage() != 0 ? book.getLastRecentPage()/book.getNumPage() : 0;
+        int progress = book.getNumPage() != 0 ? (book.getLastRecentPage() + 1) * 100 / book.getNumPage() : 0;
         bookViewHolder.pbReadProgress.setProgress(progress);
         // short click
         bookViewHolder.imBookCover.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +79,12 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
 
         // long click
         // TODO
+        bookViewHolder.imBookCover.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });
     }
 
     @Override
