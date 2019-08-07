@@ -46,6 +46,39 @@ public class AppDatabase {
         sqLiteDatabase.insert(MySQLiteOpenHelper.BOOK_TABLE, null, contentValues);
     }
 
+    public void updateBookNumPage(int bookId,int nbPages) {
+        SQLiteDatabase sqLiteDatabase = instance.mySQLiteOpenHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MySQLiteOpenHelper.BOOK_NUM_PAGE, nbPages);
+        String whereClause = MySQLiteOpenHelper.BOOK_ID + " = ?";
+        String[] whereArg = {String.valueOf(bookId)};
+
+        sqLiteDatabase.update(MySQLiteOpenHelper.BOOK_TABLE,contentValues, whereClause, whereArg );
+    }
+
+    public void updateLastReadPage(int bookId,int lPage) {
+        SQLiteDatabase sqLiteDatabase = instance.mySQLiteOpenHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MySQLiteOpenHelper.BOOK_LAST_RECENT_PAGE, lPage);
+        String whereClause = MySQLiteOpenHelper.BOOK_ID + " = ?";
+        String[] whereArg = {String.valueOf(bookId)};
+
+        sqLiteDatabase.update(MySQLiteOpenHelper.BOOK_TABLE,contentValues, whereClause, whereArg );
+    }
+
+    public void updateReadTime(int bookId,Long duration, Long endTime) {
+        SQLiteDatabase sqLiteDatabase = instance.mySQLiteOpenHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MySQLiteOpenHelper.BOOK_LAST_READ_TIME, endTime);
+        contentValues.put(MySQLiteOpenHelper.BOOK_TOTAL_READ_TIME, duration);
+
+        String whereClause = MySQLiteOpenHelper.BOOK_ID + " = ?";
+        String[] whereArg = {String.valueOf(bookId)};
+
+        sqLiteDatabase.update(MySQLiteOpenHelper.BOOK_TABLE,contentValues, whereClause, whereArg );
+
+    }
+
 
     public ArrayList<String> getAllGenre() {
         ArrayList<String> listGenre = new ArrayList<>();
@@ -70,19 +103,24 @@ public class AppDatabase {
                 MySQLiteOpenHelper.BOOK_TOTAL_READ_TIME, MySQLiteOpenHelper.BOOK_LAST_READ_TIME };
 
         String whereClause = "id = ?";
-        String whereArg[] = {String.valueOf(id)};
+        String[] whereArg = {String.valueOf(id)};
         Cursor cursor = db.query(MySQLiteOpenHelper.BOOK_TABLE, projection, whereClause , whereArg, null, null, null );
-
         Book book = new Book();
-        book.setId(cursor.getInt(0));
-        book.setName(cursor.getString(1));
-        book.setGenreId(cursor.getInt(2));
-        book.setImgPath(cursor.getString(3));
-        book.setBookPath(cursor.getString(4));
-        book.setLastRecentPage(cursor.getInt(5));
-        book.setNumPage(cursor.getInt(6));
-        book.setTotalReadTime(cursor.getInt(7));
-        book.setLastReadTime(cursor.getInt(8));
+        if(cursor.moveToNext()) {
+
+            book.setId(cursor.getInt(0));
+            book.setName(cursor.getString(1));
+            book.setGenreId(cursor.getInt(2));
+            book.setImgPath(cursor.getString(3));
+            book.setBookPath(cursor.getString(4));
+            book.setLastRecentPage(cursor.getInt(5));
+            book.setNumPage(cursor.getInt(6));
+            book.setTotalReadTime(cursor.getInt(7));
+            book.setLastReadTime(cursor.getInt(8));
+        } else {
+            return null;
+        }
+
 
         cursor.close();
         return book;
