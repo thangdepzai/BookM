@@ -42,6 +42,10 @@ public class AppDatabase {
         contentValues.put(MySQLiteOpenHelper.BOOK_LAST_RECENT_PAGE, book.getLastRecentPage());
         contentValues.put(MySQLiteOpenHelper.BOOK_IMG_PATH, book.getImgPath());
         contentValues.put(MySQLiteOpenHelper.BOOK_FILE_PATH, book.getBookPath());
+        contentValues.put(MySQLiteOpenHelper.BOOK_LAST_RECENT_PAGE, 0);
+        contentValues.put(MySQLiteOpenHelper.BOOK_NUM_PAGE, 0);
+        contentValues.put(MySQLiteOpenHelper.BOOK_TOTAL_READ_TIME, 0);
+        contentValues.put(MySQLiteOpenHelper.BOOK_LAST_READ_TIME, 0);
 
         sqLiteDatabase.insert(MySQLiteOpenHelper.BOOK_TABLE, null, contentValues);
     }
@@ -62,6 +66,20 @@ public class AppDatabase {
         contentValues.put(MySQLiteOpenHelper.BOOK_LAST_RECENT_PAGE, lPage);
         String whereClause = MySQLiteOpenHelper.BOOK_ID + " = ?";
         String[] whereArg = {String.valueOf(bookId)};
+
+        sqLiteDatabase.update(MySQLiteOpenHelper.BOOK_TABLE,contentValues, whereClause, whereArg );
+    }
+
+    public void updateBookInfo(Book book) {
+        if(book == null || book.getId()== 0) return;
+
+        SQLiteDatabase sqLiteDatabase = instance.mySQLiteOpenHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MySQLiteOpenHelper.BOOK_NAME, book.getName());
+        contentValues.put(MySQLiteOpenHelper.BOOK_AUTHOR, book.getAuthor());
+        contentValues.put(MySQLiteOpenHelper.BOOK_GENRE_ID, book.getGenreId());
+        String whereClause = MySQLiteOpenHelper.BOOK_ID + " = ?";
+        String[] whereArg = {String.valueOf(book.getId())};
 
         sqLiteDatabase.update(MySQLiteOpenHelper.BOOK_TABLE,contentValues, whereClause, whereArg );
     }
@@ -138,6 +156,7 @@ public class AppDatabase {
 
                 book.setId(cursor.getInt(cursor.getColumnIndex(MySQLiteOpenHelper.BOOK_ID)));
                 book.setName(cursor.getString(cursor.getColumnIndex(MySQLiteOpenHelper.BOOK_NAME)));
+                book.setAuthor(cursor.getString(cursor.getColumnIndex(MySQLiteOpenHelper.BOOK_AUTHOR)));
                 book.setGenreId(cursor.getInt(cursor.getColumnIndex(MySQLiteOpenHelper.BOOK_GENRE_ID)));
                 book.setImgPath(cursor.getString(cursor.getColumnIndex(MySQLiteOpenHelper.BOOK_IMG_PATH)));
                 book.setBookPath(cursor.getString(cursor.getColumnIndex(MySQLiteOpenHelper.BOOK_FILE_PATH)));
@@ -149,6 +168,13 @@ public class AppDatabase {
             cursor.close();
         }
         return book;
+    }
+
+    public void deleteBook(int id) {
+        SQLiteDatabase db = instance.mySQLiteOpenHelper.getReadableDatabase();
+        String whereClause = MySQLiteOpenHelper.BOOK_ID + " = ?";
+        String[] whereArgs = new String[]{String.valueOf(id)};
+        db.delete(MySQLiteOpenHelper.BOOK_TABLE, whereClause, whereArgs);
     }
 
 }

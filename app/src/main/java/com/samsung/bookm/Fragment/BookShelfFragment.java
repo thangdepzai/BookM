@@ -70,7 +70,7 @@ public class BookShelfFragment extends Fragment  implements ITransferData {
         View v=  inflater.inflate(R.layout.fragment_book_shelf, container, false);
         toolbar = v.findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.book_shelf_menu);
-        toolbar.setTitle("book");
+        toolbar.setTitle(R.string.book_shelf);
 
         return v;
     }

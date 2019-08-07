@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.samsung.bookm.Activity.BookDetailActivity;
 import com.samsung.bookm.Activity.ReadActivity;
 import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.R;
@@ -82,7 +83,10 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
         bookViewHolder.imBookCover.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                return false;
+                Intent intent = new Intent(mContext, BookDetailActivity.class);
+                intent.putExtra("bookId", book.getId());
+                mContext.startActivity(intent);
+                return true;
             }
         });
     }

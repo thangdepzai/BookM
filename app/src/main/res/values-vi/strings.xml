@@ -37,4 +37,15 @@
     <string name="book_chose_img">Ảnh bìa:</string>
     <string name="book_import">Đính kèm:</string>
     <string name="title_setting_activity">Cài đặt</string>
+    <string name="add_book">Thêm sách</string>
+    <string name="attack_book">Chọn sách</string>
+    <string name="author">Tác giả</string>
+    <string name="change_info">Thay đổi thông tin</string>
+    <string name="chose_book">Chọn sách</string>
+    <string name="genre">Thể loại</string>
+    <string name="number_page">Số trang</string>
+    <string name="read">Đọc sách</string>
+    <string name="remove_from_library">Xóa khỏi thư viện</string>
+    <string name="save">"Lưu "</string>
+    <string name="book_shelf">Tủ sách</string>
 </resources>

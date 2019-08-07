@@ -39,12 +39,12 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
         Bundle bundle = getIntent().getBundleExtra("READ_BOOK");
 
         if (bundle != null) {
-            Book mbook = (Book) bundle.getSerializable("exercise");
-            if (mbook != null) {
-                Log.d("SVMC", "onCreate: " + mbook.getBookPath());
-                String uriString = mbook.getBookPath();
+            mBook = (Book) bundle.getSerializable("exercise");
+            if (mBook != null) {
+                Log.d("SVMC", "onCreate: " + mBook.getBookPath());
+                String uriString = mBook.getBookPath();
                 Uri uri = Uri.fromFile(new File(uriString));
-                pageNum = mbook.getLastRecentPage();
+                pageNum = mBook.getLastRecentPage();
                 displayFromUri(uri);
                 //do something
             }
@@ -60,7 +60,7 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
     @Override
     public void displayFromUri(Uri uri) {
         mPdfView.fromUri(uri)
-                .defaultPage(mBook.getLastRecentPage())
+                .defaultPage(pageNum )
                 .onPageChange(this)
                 .enableAnnotationRendering(true)
                 .onLoad(this)
