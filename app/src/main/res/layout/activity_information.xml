@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.InformationActivity">
+
+    <TextView
+        android:id="@+id/tv_inf"
+        android:text="Developers"
+        android:textSize="40dp"
+        android:textColor="@color/textColor"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="80dp" />
+
+    <TextView
+        android:text="Tạ Bảo Thắng"
+        android:textSize="25dp"
+        android:gravity="center"
+        android:textColor="@color/textColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="Nguyễn Đức Hải"
+        android:textSize="25dp"
+        android:textColor="@color/textColor"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="Nguyễn Chí Thanh"
+        android:textSize="25dp"
+        android:textColor="@color/textColor"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="Lương Văn Minh"
+        android:textSize="25dp"
+        android:textColor="@color/textColor"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="Hoàng Thị Thu Uyên"
+        android:textSize="25dp"
+        android:textColor="@color/textColor"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+</LinearLayout>
