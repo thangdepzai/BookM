@@ -117,9 +117,9 @@ public class StatisticFragment extends Fragment {
 //                    listOfBook.get(i).getImgPath(),listOfBook.get(i).getId(),
 //                    listOfBook.get(i).getId(),listOfBook.get(i).getId(),listOfBook.get(i).getId()
 //                    ,listOfBook.get(i).getId()));
-            book.add(listOfBook.get(i));
-            if (listOfBook.get(i).getLastRecentPage() != 0) {
 
+            if (listOfBook.get(i).getLastRecentPage() != 0) {
+                book.add(listOfBook.get(i));
                 tickedBook.add(listOfBook.get(i));
                 numberOfReadBook++;
             }
