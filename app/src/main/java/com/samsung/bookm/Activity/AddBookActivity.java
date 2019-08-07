@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.provider.OpenableColumns;
 import android.support.annotation.Nullable;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jmctvs.addbook.model.AppDatabase;
+
+import java.util.ArrayList;
 
 public class AddBookActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -44,7 +47,8 @@ public class AddBookActivity extends AppCompatActivity implements View.OnClickLi
         mBtnAddBook.setOnClickListener(this);
 
         mSpCategory = findViewById(R.id.sp_category);
-        String[] genreList = {"Ngon tinh", "Trinh tham", "Tho"};
+        String[] genreList = AppDatabase.getInstance(this).getAllGenre();
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, genreList);
         mSpCategory.setAdapter(adapter);
 
@@ -122,10 +126,7 @@ public class AddBookActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    void addBook(){
-        AppDatabase.getInstance(this).insertGenre("Tiểu thuyết");
-        AppDatabase.getInstance(this).insertGenre("Trinh thám");
-        AppDatabase.getInstance(this).insertGenre("Ngôn tình");
-        AppDatabase.getInstance(this).insertGenre("Thơ");
+    void addBook() {
+
     }
 }
