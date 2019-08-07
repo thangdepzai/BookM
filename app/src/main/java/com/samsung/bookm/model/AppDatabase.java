@@ -66,31 +66,34 @@ public class AppDatabase {
 
 
     public ArrayList<Book> getAllBook() {
-        ArrayList<Book>  retArray = new ArrayList<>();
-        SQLiteDatabase db = instance.mySQLiteOpenHelper.getReadableDatabase();
+        ArrayList<Book> retArray = new ArrayList<>();
+        if (instance.mySQLiteOpenHelper.getDatabaseName() != null) {
+            SQLiteDatabase db = instance.mySQLiteOpenHelper.getReadableDatabase();
 
-        String[] projection = {MySQLiteOpenHelper.BOOK_ID, MySQLiteOpenHelper.BOOK_NAME, MySQLiteOpenHelper.BOOK_GENRE_ID, MySQLiteOpenHelper.BOOK_IMG_PATH,
-                MySQLiteOpenHelper.BOOK_FILE_PATH, MySQLiteOpenHelper.BOOK_LAST_RECENT_PAGE, MySQLiteOpenHelper.BOOK_NUM_PAGE,
-                MySQLiteOpenHelper.BOOK_TOTAL_READ_TIME, MySQLiteOpenHelper.BOOK_LAST_READ_TIME };
+            String[] projection = {MySQLiteOpenHelper.BOOK_ID, MySQLiteOpenHelper.BOOK_NAME, MySQLiteOpenHelper.BOOK_GENRE_ID, MySQLiteOpenHelper.BOOK_IMG_PATH,
+                    MySQLiteOpenHelper.BOOK_FILE_PATH, MySQLiteOpenHelper.BOOK_LAST_RECENT_PAGE, MySQLiteOpenHelper.BOOK_NUM_PAGE,
+                    MySQLiteOpenHelper.BOOK_TOTAL_READ_TIME, MySQLiteOpenHelper.BOOK_LAST_READ_TIME};
 
-        Cursor cursor = db.query(MySQLiteOpenHelper.BOOK_TABLE, projection, null , null, null, null, null );
+            Cursor cursor = db.query(MySQLiteOpenHelper.BOOK_TABLE, projection, null, null, null, null, MySQLiteOpenHelper.BOOK_LAST_READ_TIME);
 
-        while (cursor.moveToNext()) {
-            Book book = new Book();
-            book.setId(cursor.getInt(0));
-            book.setName(cursor.getString(1));
-            book.setGenreId(cursor.getInt(2));
-            book.setImgPath(cursor.getString(3));
-            book.setBookPath(cursor.getString(4));
-            book.setLastRecentPage(cursor.getInt(5));
-            book.setNumPage(cursor.getInt(6));
-            book.setTotalReadTime(cursor.getInt(7));
-            book.setLastReadTime(cursor.getInt(8));
+            while (cursor.moveToNext()) {
+                Book book = new Book();
+                book.setId(cursor.getInt(0));
+                book.setName(cursor.getString(1));
+                book.setGenreId(cursor.getInt(2));
+                book.setImgPath(cursor.getString(3));
+                book.setBookPath(cursor.getString(4));
+                book.setLastRecentPage(cursor.getInt(5));
+                book.setNumPage(cursor.getInt(6));
+                book.setTotalReadTime(cursor.getInt(7));
+                book.setLastReadTime(cursor.getInt(8));
 
-            retArray.add(book);
+                retArray.add(book);
+            }
+
+            cursor.close();
+
         }
-
-        cursor.close();
-        return retArray;
+        return  retArray;
     }
 }

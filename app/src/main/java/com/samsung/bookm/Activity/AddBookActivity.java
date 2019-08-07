@@ -84,8 +84,7 @@ public class AddBookActivity extends AppCompatActivity {
                     newBook.setAuthor(edtAuthor.getText().toString());
                     newBook.setGenreId(spnGenre.getSelectedItemPosition() + 1);
                     AppDatabase.getInstance(mContext).insertBook(newBook);
-                    Toast.makeText(mContext, newBook.getName() + " has been added to library", Toast.LENGTH_LONG).show();
-                    finish();
+                    ArrayList<Book> bookDB = AppDatabase.getInstance(mContext).getAllBook();
                 }
             }
         });
@@ -101,9 +100,7 @@ public class AddBookActivity extends AppCompatActivity {
                 Uri selectedImg = data.getData();
                 if(selectedImg != null) {
                     btnChoseImage.setImageURI(selectedImg);
-                    File file = new File(selectedImg.toString());
-                    Log.d("SVMC", "onActivityResult: " + selectedImg.toString());
-                    newBook.setImgPath(file.getPath());
+                    newBook.setImgPath(selectedImg.getPath());
                 }
 
             }

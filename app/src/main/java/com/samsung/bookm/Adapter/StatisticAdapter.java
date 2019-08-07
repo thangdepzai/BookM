@@ -2,6 +2,7 @@ package com.samsung.bookm.Adapter;
 
 import android.content.Context;
 
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,11 +23,12 @@ import java.util.ArrayList;
 public class StatisticAdapter extends RecyclerView.Adapter<StatisticAdapter.StatisticViewHolder> {
     ArrayList<Book> arrBook = new ArrayList<>();
     Context mContext;
+
     @NonNull
     @Override
     public StatisticViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        LayoutInflater inflater= LayoutInflater.from(mContext);
-        View itemView=inflater.inflate(R.layout.image_recycler_item,viewGroup,false);
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        View itemView = inflater.inflate(R.layout.image_recycler_item, viewGroup, false);
         return new StatisticViewHolder(itemView);
     }
 
@@ -36,9 +38,9 @@ public class StatisticAdapter extends RecyclerView.Adapter<StatisticAdapter.Stat
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StatisticViewHolder statisticViewHolder,final int i) {
+    public void onBindViewHolder(@NonNull StatisticViewHolder statisticViewHolder, final int i) {
         Book book = arrBook.get(i);
-        statisticViewHolder.imgBook.setBackgroundResource(R.drawable.bia_sach1);
+        statisticViewHolder.imgBook.setImageURI(Uri.parse(book.getImgPath()));
         statisticViewHolder.tvName.setText(book.getName());
         Log.d("ds", String.valueOf(statisticViewHolder.tvName.getText()));
     }
@@ -47,14 +49,16 @@ public class StatisticAdapter extends RecyclerView.Adapter<StatisticAdapter.Stat
     public int getItemCount() {
         return arrBook.size();
     }
-    public class StatisticViewHolder extends RecyclerView.ViewHolder{
+
+    public class StatisticViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvName;
         ImageView imgBook;
+
         public StatisticViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvName=(TextView)itemView.findViewById(R.id.tv_name);
-            imgBook=(ImageView)itemView.findViewById(R.id.image_recycler);
+            tvName = (TextView) itemView.findViewById(R.id.tv_name);
+            imgBook = (ImageView) itemView.findViewById(R.id.image_recycler);
         }
     }
 }
