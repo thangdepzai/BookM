@@ -32,6 +32,7 @@ import com.samsung.bookm.R;
  * A simple {@link Fragment} subclass.
  */
 public class SettingFragment extends Fragment {
+    ISettingCallBack iSettingCallBack = (ISettingCallBack) getContext();
     Context mContext;
     LinearLayout mLanguage, mInformation;
     Switch mSwitch;
@@ -69,7 +70,7 @@ public class SettingFragment extends Fragment {
         mInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, InformationActivity.class);
+                Intent intent = new Intent(getContext(), InformationActivity.class);
                 startActivity(intent);
             }
         });
@@ -94,11 +95,10 @@ public class SettingFragment extends Fragment {
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                }else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                if(iSettingCallBack==null){
+                    iSettingCallBack = (ISettingCallBack) getContext();
                 }
+                iSettingCallBack.alternateNightMode(iSettingCallBack.getCurrentNightMode());
             }
         });
 

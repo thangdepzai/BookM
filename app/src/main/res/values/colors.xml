@@ -84,6 +84,7 @@
     <color name="primary">#37474f</color>
     <color name="color_bottom_primary">#4caf50</color>
     <color name="text_bottom_primary">#212121</color>
+    <color name ="setting">#d9ffffff</color>
 
 
 </resources>

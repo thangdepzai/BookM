@@ -32,6 +32,6 @@
 
     <color name="color_bottom_primary">#4caf50</color>
     <color name="text_bottom_primary">#d9ffffff</color>
-
+    <color name ="setting">@color/md_blue_700</color>
 
 </resources>
