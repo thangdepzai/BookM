@@ -66,6 +66,7 @@ public class AddBookActivity extends AppCompatActivity {
         btnChoseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getPermission();
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -76,6 +77,7 @@ public class AddBookActivity extends AppCompatActivity {
         btnChoseBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getPermission();
                 Intent intent = new Intent();
                 intent.setType("application/pdf");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -124,11 +126,28 @@ public class AddBookActivity extends AppCompatActivity {
                 Uri selectedFile = data.getData();
                 if(selectedFile != null) {
                     String filePath = Utils.getPathFromUri(mContext, selectedFile);
-                    newBook.setBookPath(selectedFile.getPath());
+                    Log.d("SVMC", "onActivityResult: " +filePath);
+                    newBook.setBookPath(filePath);
                     btnChoseBook.setText(Utils.getFileName(mContext, selectedFile));
                 }
             }
         }
+    }
+
+    void getPermission() {
+        int permissionCheck = ContextCompat.checkSelfPermission(mContext,
+                READ_EXTERNAL_STORAGE);
+
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    (Activity)mContext,
+                    new String[]{READ_EXTERNAL_STORAGE},
+                    PERMISSION_CODE
+            );
+
+            return;
+        }
+
     }
 
     void setupGenreSpiner() {

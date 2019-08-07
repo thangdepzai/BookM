@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,8 +62,31 @@ public class AppDatabase {
 
         return listGenre;
     };
-//
-//    Book getBookById() {};
+
+    public Book getBookById(int id) {
+        SQLiteDatabase db = instance.mySQLiteOpenHelper.getReadableDatabase();
+        String[] projection = {MySQLiteOpenHelper.BOOK_ID, MySQLiteOpenHelper.BOOK_NAME, MySQLiteOpenHelper.BOOK_GENRE_ID, MySQLiteOpenHelper.BOOK_IMG_PATH,
+                MySQLiteOpenHelper.BOOK_FILE_PATH, MySQLiteOpenHelper.BOOK_LAST_RECENT_PAGE, MySQLiteOpenHelper.BOOK_NUM_PAGE,
+                MySQLiteOpenHelper.BOOK_TOTAL_READ_TIME, MySQLiteOpenHelper.BOOK_LAST_READ_TIME };
+
+        String whereClause = "id = ?";
+        String whereArg[] = {String.valueOf(id)};
+        Cursor cursor = db.query(MySQLiteOpenHelper.BOOK_TABLE, projection, whereClause , whereArg, null, null, null );
+
+        Book book = new Book();
+        book.setId(cursor.getInt(0));
+        book.setName(cursor.getString(1));
+        book.setGenreId(cursor.getInt(2));
+        book.setImgPath(cursor.getString(3));
+        book.setBookPath(cursor.getString(4));
+        book.setLastRecentPage(cursor.getInt(5));
+        book.setNumPage(cursor.getInt(6));
+        book.setTotalReadTime(cursor.getInt(7));
+        book.setLastReadTime(cursor.getInt(8));
+
+        cursor.close();
+        return book;
+    };
 
 
     public ArrayList<Book> getAllBook() {
@@ -86,6 +110,7 @@ public class AppDatabase {
             book.setNumPage(cursor.getInt(6));
             book.setTotalReadTime(cursor.getInt(7));
             book.setLastReadTime(cursor.getInt(8));
+            Log.d("SVMC", "getAllBook: " + book.getBookPath());
 
             retArray.add(book);
         }
