@@ -87,43 +87,39 @@ public class StatisticFragment extends Fragment {
         indexStatistics = new ArrayList<>();
         getData();
 
-            adapter = new StatisticAdapter(book, getActivity());
-            mRecyclerView.setAdapter(adapter);
+        adapter = new StatisticAdapter(book, getActivity());
+        mRecyclerView.setAdapter(adapter);
 
 
-            mTickedRecyclerView.setAdapter(mTickedListAdapter);
-            mTickedListAdapter = new TickedListAdapter(tickedBook, getActivity());
+        mTickedRecyclerView.setAdapter(mTickedListAdapter);
+        mTickedListAdapter = new TickedListAdapter(tickedBook, getActivity());
 
 
-
-            mIndexStatisticAdapter = new IndexStatisticAdapter(indexStatistics, getActivity());
-            mIndexRecyclerView.setAdapter(mIndexStatisticAdapter);
-
-
-
-
+        mIndexStatisticAdapter = new IndexStatisticAdapter(indexStatistics, getActivity());
+        mIndexRecyclerView.setAdapter(mIndexStatisticAdapter);
 
 
     }
+
     private void getData() {
 //        int numberOfBook=AppDatabase.getInstance(mContext).getNumberOfBook();
 //        int numberOfReadBook=AppDatabase.getInstance(mContext).getReadBook();
-        ArrayList<Book> listOfBook=AppDatabase.getInstance(mContext).getAllBook();
-        if(listOfBook.size()==0)return;
-        int countTimeRead=0;
+        ArrayList<Book> listOfBook = AppDatabase.getInstance(mContext).getAllBook();
+        if (listOfBook.size() == 0) return;
+        int countTimeRead = 0;
 //        int numberOfBook;
-        int numberOfReadBook=0;
-        for(int i=0;i<listOfBook.size();i++){
-            countTimeRead+=listOfBook.get(i).getTotalReadTime();
+        int numberOfReadBook = 0;
+        for (int i = 0; i < listOfBook.size(); i++) {
+            countTimeRead += listOfBook.get(i).getTotalReadTime();
 //            book.add(new Book(listOfBook.get(i).getId(), listOfBook.get(i).getName(),
 //                    listOfBook.get(i).getGenreId(),listOfBook.get(i).getGenre(),
 //                    listOfBook.get(i).getAuthor(),listOfBook.get(i).getBookPath(),
 //                    listOfBook.get(i).getImgPath(),listOfBook.get(i).getId(),
 //                    listOfBook.get(i).getId(),listOfBook.get(i).getId(),listOfBook.get(i).getId()
 //                    ,listOfBook.get(i).getId()));
+            book.add(listOfBook.get(i));
+            if (listOfBook.get(i).getLastRecentPage() != 0) {
 
-            if(listOfBook.get(i).getLastRecentPage()!=0){
-                book.add(listOfBook.get(i));
                 tickedBook.add(listOfBook.get(i));
                 numberOfReadBook++;
             }
@@ -133,7 +129,7 @@ public class StatisticFragment extends Fragment {
 //            tickedBook.add(new Book(4, "Bố già", 6));
 //            tickedBook.add(new Book(5, "Sherlock Home", 7));
         }
-        double hourTimeRead=countTimeRead/3600000;
+        double hourTimeRead = countTimeRead / 3600000;
 
         indexStatistics.add(new IndexStatistic(listOfBook.size(), "Sách trên giá"));
         indexStatistics.add(new IndexStatistic(numberOfReadBook, "Sách đã đọc"));
@@ -142,3 +138,5 @@ public class StatisticFragment extends Fragment {
 
     }
 }
+
+

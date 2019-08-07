@@ -1,5 +1,7 @@
 package com.samsung.bookm.Model;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 public class Book implements Serializable {
