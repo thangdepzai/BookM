@@ -26,5 +26,10 @@
     <string name="more_book">More book</string>
     <string name="more_schedule">More schedule</string>
     <string name="title_statistic_activity">Statistic</string>
+    <string name="book_name">Book name:</string>
+    <string name="book_genre">Genre:</string>
+    <string name="book_author">Author:</string>
+    <string name="book_chose_img">Book cover:</string>
+    <string name="book_import">Import book:</string>
     <string name="title_setting_activity">Setting</string>
 </resources>

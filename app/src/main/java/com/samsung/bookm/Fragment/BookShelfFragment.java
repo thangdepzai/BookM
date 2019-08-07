@@ -24,6 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.samsung.bookm.Activity.AddBookActivity;
 import com.samsung.bookm.Activity.ReadActivity;
 import com.samsung.bookm.Adapter.BookAdapter;
 import com.samsung.bookm.Activity.SearchActivity;
@@ -83,7 +85,8 @@ public class BookShelfFragment extends Fragment  implements ITransferData {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.action_add:
-                        pickFile();
+                        Intent it = new Intent(getActivity(), AddBookActivity.class);
+                        startActivity(it);
                         return true;
                     case  R.id.action_more:
                         return true;
