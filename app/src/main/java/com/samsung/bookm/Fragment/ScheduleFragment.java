@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,14 +21,19 @@ import android.view.ViewGroup;
 
 import com.samsung.bookm.Activity.AddReminderActivity;
 import com.samsung.bookm.Activity.SearchActivity;
+import com.samsung.bookm.Adapter.ReminderAdapter;
+import com.samsung.bookm.Data.ReminderDatabase;
+import com.samsung.bookm.Model.Reminder;
 import com.samsung.bookm.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ScheduleFragment extends Fragment {
     Toolbar toolbar;
-
+    RecyclerView rv_schedule;
 
     public ScheduleFragment() {
         // Required empty public constructor
@@ -48,6 +55,14 @@ public class ScheduleFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        rv_schedule = view.findViewById(R.id.rv_schedule);
+        LinearLayoutManager ll = new LinearLayoutManager(getContext());
+        ll.setOrientation(RecyclerView.VERTICAL);
+        rv_schedule.setLayoutManager(ll);
+        ReminderAdapter adapter = new ReminderAdapter(getData(), getContext());
+        rv_schedule.setAdapter(adapter);
+
+
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -63,5 +78,18 @@ public class ScheduleFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public ArrayList<Reminder> getData(){
+
+        ArrayList<Reminder> arr = (ArrayList<Reminder>) ReminderDatabase.getInstance(getContext()).getAllReminders();
+        return arr;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ReminderAdapter adapter = new ReminderAdapter(getData(), getContext());
+        rv_schedule.setAdapter(adapter);
     }
 }

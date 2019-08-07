@@ -2,6 +2,8 @@ package com.samsung.bookm.Adapter;
 
 import android.content.Context;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.samsung.bookm.Activity.ReadActivity;
 import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.R;
 
@@ -38,9 +41,18 @@ public class StatisticAdapter extends RecyclerView.Adapter<StatisticAdapter.Stat
     @Override
     public void onBindViewHolder(@NonNull StatisticViewHolder statisticViewHolder,final int i) {
         Book book = arrBook.get(i);
-        statisticViewHolder.imgBook.setBackgroundResource(R.drawable.bia_sach1);
+        final String bookPath=book.getBookPath();
+        statisticViewHolder.imgBook.setImageURI(Uri.parse(book.getImgPath()));
+//        Log.d("ds", String.valueOf(book.getImgPath()));
+        statisticViewHolder.imgBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(mContext, ReadActivity.class);
+                intent.putExtra("KEY_URI",bookPath);
+            }
+        });
         statisticViewHolder.tvName.setText(book.getName());
-        Log.d("ds", String.valueOf(statisticViewHolder.tvName.getText()));
+//        Log.d("ds", String.valueOf(statisticViewHolder.tvName.getText()));
     }
 
     @Override

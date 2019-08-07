@@ -15,6 +15,7 @@ import java.util.List;
 
 
 public class ReminderDatabase extends SQLiteOpenHelper {
+    static ReminderDatabase instance = null;
     // Database Version
     private static final int DATABASE_VERSION = 1;
 
@@ -33,9 +34,17 @@ public class ReminderDatabase extends SQLiteOpenHelper {
     private static final String KEY_REPEAT_NO = "repeat_no";
     private static final String KEY_REPEAT_TYPE = "repeat_type";
     private static final String KEY_ACTIVE = "active";
+    private static final String KEY_BOOK_ID = "bookid";
 
-    public ReminderDatabase(Context context) {
+    private ReminderDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+    public  static  ReminderDatabase getInstance(Context context){
+        if(instance==null){
+            instance = new ReminderDatabase(context);
+        }
+        return instance;
+
     }
 
     // Creating Tables
@@ -50,7 +59,8 @@ public class ReminderDatabase extends SQLiteOpenHelper {
                 + KEY_REPEAT + " BOOLEAN,"
                 + KEY_REPEAT_NO + " INTEGER,"
                 + KEY_REPEAT_TYPE + " TEXT,"
-                + KEY_ACTIVE + " BOOLEAN" + ")";
+                + KEY_ACTIVE + " BOOLEAN, "
+                + KEY_BOOK_ID+ " INTEGER "+ ")";
         db.execSQL(CREATE_REMINDERS_TABLE);
     }
 
@@ -78,6 +88,7 @@ public class ReminderDatabase extends SQLiteOpenHelper {
         values.put(KEY_REPEAT_NO , reminder.getmRepeatNo());
         values.put(KEY_REPEAT_TYPE, reminder.getmRepeatType());
         values.put(KEY_ACTIVE, reminder.getmActive());
+        values.put(KEY_BOOK_ID, reminder.getmBookId());
 
         // Inserting Row
         int id =(int)  db.insert(TABLE_REMINDERS, null, values);
@@ -99,7 +110,8 @@ public class ReminderDatabase extends SQLiteOpenHelper {
                                 KEY_REPEAT,
                                 KEY_REPEAT_NO,
                                 KEY_REPEAT_TYPE,
-                                KEY_ACTIVE
+                                KEY_ACTIVE,
+                                KEY_BOOK_ID
                         }, KEY_ID + "=?",
 
                 new String[] {String.valueOf(id)}, null, null, null, null);
@@ -109,7 +121,7 @@ public class ReminderDatabase extends SQLiteOpenHelper {
 
         Reminder reminder = new Reminder(Integer.parseInt(cursor.getString(0)), cursor.getString(1),
                 cursor.getString(2), cursor.getString(3), cursor.getString(4),
-                cursor.getString(5), cursor.getString(6), cursor.getString(7));
+                cursor.getString(5), cursor.getString(6), cursor.getString(7), Integer.parseInt(cursor.getString(8)));
 
         return reminder;
     }
@@ -137,6 +149,7 @@ public class ReminderDatabase extends SQLiteOpenHelper {
                 reminder.setmRepeatNo(cursor.getString(5));
                 reminder.setmRepeatType(cursor.getString(6));
                 reminder.setmActive(cursor.getString(7));
+                reminder.setmBookId(cursor.getInt(8));
 
                 // Adding Reminders to list
                 reminderList.add(reminder);
@@ -166,6 +179,7 @@ public class ReminderDatabase extends SQLiteOpenHelper {
         values.put(KEY_REPEAT_NO , reminder.getmRepeatNo());
         values.put(KEY_REPEAT_TYPE, reminder.getmRepeatType());
         values.put(KEY_ACTIVE, reminder.getmActive());
+        values.put(KEY_BOOK_ID, reminder.getmBookId());
 
         // Updating row
         return db.update(TABLE_REMINDERS, values, KEY_ID + "=?",
@@ -200,6 +214,7 @@ public class ReminderDatabase extends SQLiteOpenHelper {
                 reminder.setmRepeatNo(cursor.getString(5));
                 reminder.setmRepeatType(cursor.getString(6));
                 reminder.setmActive(cursor.getString(7));
+                reminder.setmBookId(Integer.parseInt(cursor.getString(8)));
 
                 // Adding Reminders to list
                 reminderList.add(reminder);
@@ -238,7 +253,7 @@ public class ReminderDatabase extends SQLiteOpenHelper {
                 reminder.setmRepeatNo(cursor.getString(5));
                 reminder.setmRepeatType(cursor.getString(6));
                 reminder.setmActive(cursor.getString(7));
-
+                reminder.setmBookId(Integer.parseInt(cursor.getString(8)));
                 // Adding Reminders to list
                 reminderList.add(reminder);
             } while (cursor.moveToNext());

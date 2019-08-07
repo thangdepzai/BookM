@@ -1,6 +1,8 @@
 package com.samsung.bookm.Model;
 
-public class Reminder {
+import java.io.Serializable;
+
+public class Reminder  implements Serializable {
     private int mID; // id
     private String mTitle; // title
     private String mDate; // Ngay doc
@@ -9,8 +11,9 @@ public class Reminder {
     private String mRepeatNo; // so lan lap
     private String mRepeatType; // kieu lap theo ngay / gio /.....
     private String mActive; // lap hay khong
+    private int mBookId;
 
-    public Reminder(int mID, String mTitle, String mDate, String mTime, String mRepeat, String mRepeatNo, String mRepeatType, String mActive) {
+    public Reminder(int mID, String mTitle, String mDate, String mTime, String mRepeat, String mRepeatNo, String mRepeatType, String mActive, int mBookId) {
         this.mID = mID;
         this.mTitle = mTitle;
         this.mDate = mDate;
@@ -19,9 +22,18 @@ public class Reminder {
         this.mRepeatNo = mRepeatNo;
         this.mRepeatType = mRepeatType;
         this.mActive = mActive;
+        this.mBookId = mBookId;
     }
 
-    public Reminder(String mTitle, String mDate, String mTime, String mRepeat, String mRepeatNo, String mRepeatType, String mActive) {
+    public int getmBookId() {
+        return mBookId;
+    }
+
+    public void setmBookId(int mBookId) {
+        this.mBookId = mBookId;
+    }
+
+    public Reminder(String mTitle, String mDate, String mTime, String mRepeat, String mRepeatNo, String mRepeatType, String mActive, int mBookId) {
         this.mTitle = mTitle;
         this.mDate = mDate;
         this.mTime = mTime;
@@ -29,6 +41,7 @@ public class Reminder {
         this.mRepeatNo = mRepeatNo;
         this.mRepeatType = mRepeatType;
         this.mActive = mActive;
+        this.mBookId = mBookId;
     }
 
     public Reminder() {

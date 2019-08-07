@@ -19,7 +19,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:lines="2"
-        android:textColor="#120F0F"
+        android:textColor="@color/textPrimary"
         android:textSize="15sp" />
 
 
