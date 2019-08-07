@@ -66,20 +66,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
             holder.fab_notifi_off.setVisibility(View.GONE);
             holder.fab_notifi_on.setVisibility(View.VISIBLE);
         }
-//        holder.fab_notifi_on.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                holder.fab_notifi_on.setVisibility(View.GONE);
-//                holder.fab_notifi_off.setVisibility(View.VISIBLE);
-//            }
-//        });
-//        holder.fab_notifi_off.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                holder.fab_notifi_off.setVisibility(View.GONE);
-//                holder.fab_notifi_on.setVisibility(View.VISIBLE);
-//            }
-//        });
+
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

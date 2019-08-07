@@ -1,17 +1,14 @@
 package com.samsung.bookm.Activity;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.content.ActivityNotFoundException;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+
+
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,12 +22,13 @@ import com.samsung.bookm.Fragment.BookShelfFragment;
 import com.samsung.bookm.Model.AppDatabase;
 import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.R;
-
-import java.io.File;
-import java.util.ArrayList;
+import com.samsung.bookm.Util.Utils;
 import java.util.List;
 
 public class AddBookActivity extends AppCompatActivity {
+
+    public static final String READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
+    public static final int PERMISSION_CODE = 42042;
 
     Context mContext;
     EditText edtBookName;
@@ -83,8 +81,9 @@ public class AddBookActivity extends AppCompatActivity {
 
 
 
-
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -94,7 +93,8 @@ public class AddBookActivity extends AppCompatActivity {
                 Uri selectedImg = data.getData();
                 if(selectedImg != null) {
                     btnChoseImage.setImageURI(selectedImg);
-                    newBook.setImgPath(selectedImg+"");
+                    String imgPath = Utils.getPathFromUri(mContext, selectedImg);
+                    newBook.setImgPath(imgPath);
                 }
 
             }
@@ -104,7 +104,7 @@ public class AddBookActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK &&data != null) {
                 Uri selectedFile = data.getData();
                 if(selectedFile != null) {
-                    newBook.setBookPath(selectedFile.toString());
+                    newBook.setBookPath(selectedFile+"");
                     btnChoseBook.setText(selectedFile.toString());
                     btnAddBook.setClickable(true);
                     btnAddBook.setBackgroundColor(getResources().getColor(R.color.button_add_book_press));
@@ -128,6 +128,7 @@ public class AddBookActivity extends AppCompatActivity {
                             }
                         }
                     });
+
                 }
             }
         }

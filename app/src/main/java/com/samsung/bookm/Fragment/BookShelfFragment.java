@@ -112,19 +112,71 @@ public class BookShelfFragment extends Fragment  implements ITransferData {
         //tạo Grid với 3 cột
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
         mBookRecycler.setLayoutManager(gridLayoutManager);
-        listBooks = getData();
+
+        listBooks = AppDatabase.getInstance(getContext()).getAllBook();
         adapter = new BookAdapter(getContext(),listBooks );
         mBookRecycler.setAdapter(adapter);
-        // Inflate the layout for this fragment
+
 
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        listBooks = AppDatabase.getInstance(getContext()).getAllBook();
+        adapter = new BookAdapter(getContext(),listBooks );
+        mBookRecycler.setAdapter(adapter);
+    }
 
     @Override
     public void delete(int position) {
         listBooks.remove(position);
         adapter.notifyDataSetChanged();
+    }
+
+
+
+    // xin quyen doc file
+    void pickFile() {
+        int permissionCheck = ContextCompat.checkSelfPermission(getContext(),
+                READ_EXTERNAL_STORAGE);
+
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    getActivity(),
+                    new String[]{READ_EXTERNAL_STORAGE},
+                    1
+            );
+
+            return;
+        }
+
+        launchPicker();
+    }
+
+    // tim kiem file
+    void launchPicker() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("application/pdf");
+        try {
+            startActivityForResult(intent, REQUEST_CODE);
+        } catch (ActivityNotFoundException e) {
+            //alert user that file manager not working
+            Toast.makeText(getContext(), "Can not open file!!!", Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE){
+            if(resultCode == RESULT_OK){
+                Uri uri = data.getData();
+                Intent i = new Intent(getContext(), ReadActivity.class);
+                i.putExtra("KEY_URI", uri+"");
+                startActivity(i);
+
+            }
+        }
     }
 
     @Override

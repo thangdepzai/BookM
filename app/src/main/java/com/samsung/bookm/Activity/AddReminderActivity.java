@@ -17,6 +17,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -330,43 +331,6 @@ public class AddReminderActivity extends AppCompatActivity implements
         });
         alert.show();
     }
-    public void setAttack(){
-        // setup the alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Choose an book in Shelf");
-
-        // add a radio button list
-        final ArrayList<Book> arr = AppDatabase.getInstance(this).getAllBook();
-        final ArrayList<String> data = new ArrayList<>();
-        for(Book book : arr){
-            data.add(book.getName());
-        }
-        int checkedItem = 1;
-        builder.setSingleChoiceItems((ListAdapter) data, checkedItem, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // user checked an item
-
-            }
-        });
-
-        // add OK and Cancel buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // user clicked OK
-                bookid = arr.get(which).getId();
-                mBook.setText(data.get(which));
-
-            }
-        });
-        builder.setNegativeButton("Cancel", null);
-
-        // create and show the alert dialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-    }
     // On clicking the save button
     public void saveReminder(){
         ReminderDatabase rb = new ReminderDatabase(this);
@@ -497,5 +461,38 @@ public class AddReminderActivity extends AppCompatActivity implements
         }else mDate = mDate+dayOfMonth;
 
         mDateText.setText(mDate);
+    }
+
+    public void setAttack(View view) {
+        Log.d("SVMC", "Them book");
+        // add a radio button list
+        final ArrayList<Book> arr = AppDatabase.getInstance(this).getAllBook();
+        final ArrayList<String> data = new ArrayList<>();
+        for(Book book : arr){
+            data.add(book.getName());
+            Log.d("SVMC",book.getName() );
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose book");
+
+        int checkedItem = 0; //this will checked the item when user open the dialog
+        builder.setSingleChoiceItems( data.toArray(new String[data.size()]), checkedItem, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                bookid = arr.get(which).getId();
+                mBook.setText(arr.get(which).getName());
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

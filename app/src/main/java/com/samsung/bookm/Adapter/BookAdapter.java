@@ -3,13 +3,14 @@ package com.samsung.bookm.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.R;
 
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -49,8 +51,18 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder bookViewHolder, final int position) {
         final Book book = bookArr.get(position);
-        bookViewHolder.imBookCover.setImageResource(R.mipmap.defbookcover);
+
+        if(book.getImgPath() != null) {
+            Uri bookCover = Uri.fromFile(new File(book.getImgPath()));
+            Log.d("SVMC", "onBindViewHolder: " + book.getImgPath());
+            bookViewHolder.imBookCover.setImageURI(bookCover);
+        } else {
+            bookViewHolder.imBookCover.setImageResource(R.mipmap.defbookcover);
+
+        }
         bookViewHolder.tvBookName.setText(book.getName());
+        int progress = book.getNumPage() != 0 ? book.getLastRecentPage()/book.getNumPage() : 0;
+        bookViewHolder.pbReadProgress.setProgress(progress);
         // short click
         bookViewHolder.imBookCover.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,11 +88,13 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
     public class BookViewHolder extends RecyclerView.ViewHolder {
         ImageView imBookCover;
         TextView tvBookName;
+        ProgressBar pbReadProgress;
 
         public BookViewHolder(View itemView) {
             super(itemView);
             imBookCover = (ImageView) itemView.findViewById(R.id.book_cover);
             tvBookName = (TextView) itemView.findViewById(R.id.book_name);
+            pbReadProgress = (ProgressBar) itemView.findViewById(R.id.pg_book_progress);
         }
     }
 

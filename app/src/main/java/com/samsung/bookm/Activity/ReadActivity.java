@@ -50,7 +50,7 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
 
     @Override
     public void displayFromUri(Uri uri) {
-        //pdfFileName = getFileName(uri);
+        pdfFileName = getFileName(uri);
         mPdfView.fromUri(uri)
                 .defaultPage(pageNum)
                 .onPageChange(this)
