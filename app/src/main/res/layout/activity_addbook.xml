@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddBookActivity"
-    android:layout_centerVertical="true">
+    android:gravity="center_vertical">
 
     <EditText
         android:layout_width="match_parent"
@@ -15,7 +15,9 @@
         android:hint="Book name"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="90dp"/>
+        android:background="@drawable/round_edittext"
+        android:padding="5dp"
+        />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,13 +27,16 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="15dp"
-        android:layout_below="@id/ed_bookname"/>
+        android:layout_below="@id/ed_bookname"
+        android:background="@drawable/round_edittext"
+        android:padding="5dp"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_category"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="11dp"
         android:layout_marginEnd="20dp"
         android:layout_below="@id/ed_author"
         android:text="Category"/>
@@ -39,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/sp_category"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@id/ed_author"
         android:layout_toRightOf="@id/tv_category"
         android:layout_marginStart="10dp"
@@ -52,16 +57,20 @@
         android:hint="Description"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="15dp"
-        android:layout_below="@id/sp_category"/>
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/sp_category"
+        android:background="@drawable/round_edittext"
+        android:padding="5dp"
+        />
     <Button
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/btn_pickfile"
-        android:layout_below="@id/ed_descrption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PDF file"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/ic_folder_open_black_24dp"/>
+        android:layout_marginEnd="10dp"
+        android:id="@+id/btn_pickfile"
+        android:layout_below="@id/ed_descrption"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,7 +81,29 @@
         android:layout_toRightOf="@id/btn_pickfile"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Image file"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/btn_pickimg"
+        android:layout_below="@id/btn_pickfile"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_imguri"
+        android:layout_below="@id/btn_pickfile"
+        android:text="..."
+        android:textSize="15sp"
+        android:layout_toRightOf="@id/btn_pickimg"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,7 +111,10 @@
         android:paddingRight="40dp"
         android:id="@+id/btn_addbook"
         android:text="Add Book"
-        android:layout_below="@id/btn_pickfile"
+        android:layout_below="@id/btn_pickimg"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:background="#D594D383"
+        android:shadowRadius="@android:integer/config_mediumAnimTime"
+        />
 </RelativeLayout>
