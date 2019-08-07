@@ -2,7 +2,10 @@ package com.samsung.bookm.Adapter;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +17,11 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.samsung.bookm.Activity.ReadActivity;
 import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class TickedListAdapter extends RecyclerView.Adapter<TickedListAdapter.TickedListViewHolder> {
@@ -40,11 +45,34 @@ public class TickedListAdapter extends RecyclerView.Adapter<TickedListAdapter.Ti
 
     @Override
     public void onBindViewHolder(@NonNull TickedListViewHolder tickedListViewHolder, final int i) {
-        Book book = arrBook.get(i);
-        tickedListViewHolder.imgTickedBook.setImageURI(Uri.parse(book.getImgPath()));
-        tickedListViewHolder.tvTickedName.setText(book.getName());
-        tickedListViewHolder.tvPageNumber.setText(book.getLastRecentPage());
+
+         final Book tickedBook = arrBook.get(i);
+
+        if(tickedBook.getImgPath() != null) {
+            Uri bookCover = Uri.fromFile(new File(tickedBook.getImgPath()));
+            Log.d("SVMC", "onBindViewHolder: " + tickedBook.getImgPath());
+            tickedListViewHolder.imgTickedBook.setImageURI(bookCover);
+        } else {
+            tickedListViewHolder.imgTickedBook.setImageResource(R.mipmap.defbookcover);
+
+        }
+        tickedListViewHolder.tvTickedName.setText(tickedBook.getName());
+        tickedListViewHolder.tvPageNumber.setText("Page"+tickedBook.getLastRecentPage());
 //        Log.d("ds",String.valueOf(tickedListViewHolder.tvName.getText()));
+
+        tickedListViewHolder.imgTickedBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(mContext, ReadActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("exercise", tickedBook);
+                i.putExtra("READ_BOOK", bundle);
+                mContext.startActivity(i);
+
+            }
+        });
+
     }
 
     @Override
