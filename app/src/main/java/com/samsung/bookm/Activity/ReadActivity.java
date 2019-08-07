@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
+import com.samsung.bookm.Model.AppDatabase;
 import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.R;
 import com.samsung.bookm.Util.IPdfReaderUtils;
@@ -21,6 +22,8 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
     PDFView mPdfView;
     String pdfFileName;
     int pageNum=0;
+    Book mBook;
+    Long startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +32,12 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
         mPdfView = findViewById(R.id.pdfViewer);
 
         Bundle bundle = getIntent().getBundleExtra("READ_BOOK");
-        Book mbook = (Book)bundle.getSerializable("exercise");
+        mBook = (Book)bundle.getSerializable("exercise");
 
-        if(mbook != null)
+        if(mBook != null)
         {
-            Log.d("SVMC", "onCreate: " + mbook.getBookPath());
-            String uriString = mbook.getBookPath();
+            Log.d("SVMC", "onCreate: " + mBook.getBookPath());
+            String uriString = mBook.getBookPath();
             Uri uri = Uri.fromFile(new File(uriString));
             displayFromUri(uri);
             //do something
@@ -50,7 +53,7 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
     @Override
     public void displayFromUri(Uri uri) {
         mPdfView.fromUri(uri)
-                .defaultPage(pageNum)
+                .defaultPage(mBook.getLastRecentPage())
                 .onPageChange(this)
                 .enableAnnotationRendering(true)
                 .onLoad(this)
@@ -83,16 +86,26 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
 
     @Override
     public void loadComplete(int nbPages) {
-
+        Log.d("PDF", "loadComplete: " + nbPages);
+        AppDatabase.getInstance(this).updateBookNumPage(mBook.getId(), nbPages);
+        startTime = System.currentTimeMillis()/1000;
     }
 
     @Override
     public void onPageChanged(int page, int pageCount) {
-
+        AppDatabase.getInstance(this).updateLastReadPage(mBook.getId(), page);
     }
 
     @Override
     public void onPageError(int page, Throwable t) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Long endTime = System.currentTimeMillis()/1000;
+        Long readTime = mBook.getTotalReadTime() + endTime - startTime;
+        AppDatabase.getInstance(this).updateReadTime(mBook.getId(), readTime, endTime);
     }
 }
