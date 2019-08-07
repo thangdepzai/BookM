@@ -84,25 +84,8 @@ public class AddBookActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Select Book"), PICK_BOOK);
             }
         });
+        btnAddBook.setClickable(false);
 
-        btnAddBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String bookName = edtBookName.getText().toString();
-                if(bookName.equals("")) {
-                    Toast.makeText(mContext, "Please insert book's name", Toast.LENGTH_LONG).show();
-                } else {
-                    newBook.setName(bookName);
-                    newBook.setAuthor(edtAuthor.getText().toString());
-                    newBook.setGenreId(spnGenre.getSelectedItemPosition() + 1);
-                    newBook.setLastRecentPage(0);
-                    newBook.setNumPage(12);
-                    AppDatabase.getInstance(mContext).insertBook(newBook);
-                    Toast.makeText(mContext, newBook.getName() + " has been added to library", Toast.LENGTH_LONG).show();
-                    finish();
-                }
-            }
-        });
 
 
     }
@@ -113,7 +96,7 @@ public class AddBookActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         if (requestCode == PICK_IMAGE) {
-            if(data != null) {
+            if(resultCode == RESULT_OK &&data != null) {
                 Uri selectedImg = data.getData();
                 if(selectedImg != null) {
                     btnChoseImage.setImageURI(selectedImg);
@@ -124,13 +107,33 @@ public class AddBookActivity extends AppCompatActivity {
             }
         }
         if (requestCode == PICK_BOOK) {
-            if(data != null) {
+            if(resultCode == RESULT_OK && data != null) {
                 Uri selectedFile = data.getData();
                 if(selectedFile != null) {
                     String filePath = Utils.getPathFromUri(mContext, selectedFile);
                     Log.d("SVMC", "onActivityResult: " +filePath);
                     newBook.setBookPath(filePath);
                     btnChoseBook.setText(Utils.getFileName(mContext, selectedFile));
+                    btnAddBook.setClickable(true);
+                    btnAddBook.setBackgroundColor(getResources().getColor(R.color.button_add_book_press));
+                    btnAddBook.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String bookName = edtBookName.getText().toString();
+                            if(bookName.equals("")) {
+                                Toast.makeText(mContext, "Please insert book's name", Toast.LENGTH_LONG).show();
+                            } else {
+                                newBook.setName(bookName);
+                                newBook.setAuthor(edtAuthor.getText().toString());
+                                newBook.setGenreId(spnGenre.getSelectedItemPosition() + 1);
+                                newBook.setLastRecentPage(0);
+                                newBook.setNumPage(12);
+                                AppDatabase.getInstance(mContext).insertBook(newBook);
+                                Toast.makeText(mContext, newBook.getName() + " has been added to library", Toast.LENGTH_LONG).show();
+                                finish();
+                            }
+                        }
+                    });
                 }
             }
         }
