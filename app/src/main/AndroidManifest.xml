@@ -10,6 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:name=".Activity.InformationActivity"></activity>
+        <activity android:name=".Activity.LanguageActivity"></activity>
         <activity android:name=".Activity.BookDetailActivity"></activity>
         <activity android:name=".Activity.AddBookActivity"></activity>
         <activity android:name=".Activity.ReadActivity" />

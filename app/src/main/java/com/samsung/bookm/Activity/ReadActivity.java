@@ -128,4 +128,6 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
         AppDatabase.getInstance(this).updateReadTime(mBook.getId(), readTime, endTime);
     }
 
+
 }
+

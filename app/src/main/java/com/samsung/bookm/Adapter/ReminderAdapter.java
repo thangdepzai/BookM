@@ -66,7 +66,9 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
             Log.d("SVMC", "onBindViewHolder: " + book.getImgPath());
             holder.img_book_cover.setImageURI(bookCover);
         } else {
+
             holder.img_book_cover.setImageResource(R.mipmap.defbookcover);
+
         }
         holder.progress_bar.setProgress((int)book.getLastRecentPage()/book.getNumPage());
         if(arr.get(position).getmActive().equals("true")){
