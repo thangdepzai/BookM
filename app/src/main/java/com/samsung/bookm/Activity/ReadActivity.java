@@ -6,12 +6,16 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.util.Log;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.R;
 import com.samsung.bookm.Util.IPdfReaderUtils;
+
+import java.io.File;
+import java.util.Objects;
 
 public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
     PDFView mPdfView;
@@ -24,12 +28,14 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
         setContentView(R.layout.activity_read);
         mPdfView = findViewById(R.id.pdfViewer);
 
-        Book mbook = (Book)getIntent().getSerializableExtra("READ_BOOK");
+        Bundle bundle = getIntent().getBundleExtra("READ_BOOK");
+        Book mbook = (Book)bundle.getSerializable("exercise");
 
         if(mbook != null)
         {
+            Log.d("SVMC", "onCreate: " + mbook.getBookPath());
             String uriString = mbook.getBookPath();
-            Uri uri = Uri.parse(uriString);
+            Uri uri = Uri.fromFile(new File(uriString));
             displayFromUri(uri);
             //do something
         }
@@ -43,7 +49,6 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
 
     @Override
     public void displayFromUri(Uri uri) {
-        pdfFileName = getFileName(uri);
         mPdfView.fromUri(uri)
                 .defaultPage(pageNum)
                 .onPageChange(this)
@@ -56,8 +61,9 @@ public class ReadActivity extends AppCompatActivity implements IPdfReaderUtils {
     }
 
     public String getFileName(Uri uri) {
+        Log.d("SVMC", "getFileName: " +uri.getLastPathSegment());
         String result = null;
-        if (uri.getScheme().equals("content")) {
+        if (Objects.equals(uri.getScheme(), "content")) {
             Cursor cursor = getContentResolver().query(uri, null, null, null, null);
             try {
                 if (cursor != null && cursor.moveToFirst()) {
