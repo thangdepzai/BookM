@@ -1,6 +1,7 @@
 package com.samsung.bookm.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -11,10 +12,17 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.samsung.bookm.Adapter.HistoryAdapter;
+import com.samsung.bookm.Data.HistoryDatabase;
+import com.samsung.bookm.Model.SearchHistory;
 import com.samsung.bookm.R;
 import com.samsung.bookm.Util.InputMethodUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener{
     private ImageView ivArrowBack;
@@ -22,6 +30,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private ImageView ivActionClear;
     private EditText etSearch;
     private RecyclerView recyclerView;
+    HistoryAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +104,15 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         });
 
 
+        ArrayList<SearchHistory> searchList = (ArrayList<SearchHistory>) HistoryDatabase.getInstance(this).getAllHistory();
+         adapter= new HistoryAdapter(searchList, getApplicationContext());
+        RecyclerView rv = findViewById(R.id.rv);
+        LinearLayoutManager ll = new LinearLayoutManager(this);
+        ll.setOrientation(RecyclerView.VERTICAL);
+        rv.setLayoutManager(ll);
+        rv.setAdapter(adapter);
+
+
 
 
     }
@@ -131,10 +150,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         if (etSearchText != null) {
             String trim = etSearchText.toString().trim();
             if (trim.length() > 0) {
-                // tim tu khoa
- //               DBManger.getInstance().saveSearchKeyword(trim);
-//                AppRouter.showSearchResultActivity(this, trim);
-//                AppManager.getInstance().finishActivity(getClass());
+                HistoryDatabase.getInstance(this).addHistory(new SearchHistory(trim, System.currentTimeMillis()));
+
             }
         }
     }
