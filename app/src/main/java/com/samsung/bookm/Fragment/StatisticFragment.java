@@ -73,15 +73,15 @@ public class StatisticFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mTickedRecyclerView.setLayoutManager(layoutManagerTicked);
         mIndexRecyclerView.setLayoutManager(layoutManagerIndex);
-        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(3000);
-        AlphaAnimation animTicked = new AlphaAnimation(0.0f, 1.0f);
-        animTicked.setDuration(3000);
-        AlphaAnimation animIndex = new AlphaAnimation(0.0f, 1.0f);
-        animIndex.setDuration(3000);
-        mTickedRecyclerView.setAnimation(animTicked);
-        mRecyclerView.setAnimation(anim);
-        mIndexRecyclerView.setAnimation(animIndex);
+//        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+//        anim.setDuration(3000);
+//        AlphaAnimation animTicked = new AlphaAnimation(0.0f, 1.0f);
+//        animTicked.setDuration(3000);
+//        AlphaAnimation animIndex = new AlphaAnimation(0.0f, 1.0f);
+//        animIndex.setDuration(3000);
+//        mTickedRecyclerView.setAnimation(animTicked);
+//        mRecyclerView.setAnimation(anim);
+//        mIndexRecyclerView.setAnimation(animIndex);
         book = new ArrayList<Book>();
         tickedBook = new ArrayList<Book>();
         indexStatistics = new ArrayList<>();
@@ -90,9 +90,9 @@ public class StatisticFragment extends Fragment {
         adapter = new StatisticAdapter(book, getActivity());
         mRecyclerView.setAdapter(adapter);
 
-
-        mTickedRecyclerView.setAdapter(mTickedListAdapter);
         mTickedListAdapter = new TickedListAdapter(tickedBook, getActivity());
+        mTickedRecyclerView.setAdapter(mTickedListAdapter);
+
 
 
         mIndexStatisticAdapter = new IndexStatisticAdapter(indexStatistics, getActivity());
