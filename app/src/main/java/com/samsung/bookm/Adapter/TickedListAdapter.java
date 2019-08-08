@@ -46,7 +46,7 @@ public class TickedListAdapter extends RecyclerView.Adapter<TickedListAdapter.Ti
     @Override
     public void onBindViewHolder(@NonNull TickedListViewHolder tickedListViewHolder, final int i) {
 
-         final Book tickedBook = arrBook.get(i);
+        final Book tickedBook = arrBook.get(i);
 
         if(tickedBook.getImgPath() != null) {
             Uri bookCover = Uri.fromFile(new File(tickedBook.getImgPath()));
@@ -57,7 +57,9 @@ public class TickedListAdapter extends RecyclerView.Adapter<TickedListAdapter.Ti
 
         }
         tickedListViewHolder.tvTickedName.setText(tickedBook.getName());
-        tickedListViewHolder.tvPageNumber.setText("Page"+tickedBook.getLastRecentPage());
+        Log.d("name",tickedBook.getName());
+        Log.d("name",String .valueOf(tickedBook.getLastRecentPage()));
+        tickedListViewHolder.tvPageNumber.setText("Trang "+String .valueOf(tickedBook.getLastRecentPage()));
 //        Log.d("ds",String.valueOf(tickedListViewHolder.tvName.getText()));
 
         tickedListViewHolder.imgTickedBook.setOnClickListener(new View.OnClickListener() {
