@@ -20,6 +20,7 @@ import android.view.animation.AlphaAnimation;
 import com.samsung.bookm.Adapter.IndexStatisticAdapter;
 import com.samsung.bookm.Adapter.StatisticAdapter;
 import com.samsung.bookm.Adapter.TickedListAdapter;
+import com.samsung.bookm.Model.AppDatabase;
 import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.Model.IndexStatistic;
 import com.samsung.bookm.R;
@@ -72,42 +73,68 @@ public class StatisticFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mTickedRecyclerView.setLayoutManager(layoutManagerTicked);
         mIndexRecyclerView.setLayoutManager(layoutManagerIndex);
-        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(3000);
-        AlphaAnimation animTicked = new AlphaAnimation(0.0f, 1.0f);
-        animTicked.setDuration(3000);
-        AlphaAnimation animIndex = new AlphaAnimation(0.0f, 1.0f);
-        animIndex.setDuration(3000);
-        mTickedRecyclerView.setAnimation(animTicked);
-        mRecyclerView.setAnimation(anim);
-        mIndexRecyclerView.setAnimation(animIndex);
+//        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+//        anim.setDuration(3000);
+//        AlphaAnimation animTicked = new AlphaAnimation(0.0f, 1.0f);
+//        animTicked.setDuration(3000);
+//        AlphaAnimation animIndex = new AlphaAnimation(0.0f, 1.0f);
+//        animIndex.setDuration(3000);
+//        mTickedRecyclerView.setAnimation(animTicked);
+//        mRecyclerView.setAnimation(anim);
+//        mIndexRecyclerView.setAnimation(animIndex);
         book = new ArrayList<Book>();
         tickedBook = new ArrayList<Book>();
         indexStatistics = new ArrayList<>();
         getData();
-        mTickedListAdapter = new TickedListAdapter(tickedBook, getActivity());
+
         adapter = new StatisticAdapter(book, getActivity());
         mRecyclerView.setAdapter(adapter);
+
+        mTickedListAdapter = new TickedListAdapter(tickedBook, getActivity());
         mTickedRecyclerView.setAdapter(mTickedListAdapter);
+
+
+
         mIndexStatisticAdapter = new IndexStatisticAdapter(indexStatistics, getActivity());
         mIndexRecyclerView.setAdapter(mIndexStatisticAdapter);
+
+
     }
+
     private void getData() {
-        book.add(new Book(1, "Đắc nhân tâm", 3));
-        book.add(new Book(2, "Yêu trên từng ngón tay", 4));
-        book.add(new Book(3, "Hạt giống tâm hồn", 5));
-        book.add(new Book(4, "Bố già", 6));
-        book.add(new Book(5, "Sherlock Home", 7));
-        tickedBook.add(new Book(1, "Đắc nhân tâm", 3));
-        tickedBook.add(new Book(2, "Yêu trên từng ngón tay", 4));
-        tickedBook.add(new Book(3, "Hạt giống tâm hồn", 5));
-        tickedBook.add(new Book(4, "Bố già", 6));
-        tickedBook.add(new Book(5, "Sherlock Home", 7));
-        indexStatistics.add(new IndexStatistic(2.1, "Số giờ đọc"));
-        indexStatistics.add(new IndexStatistic(0.4, "Số giờ đọc"));
-        indexStatistics.add(new IndexStatistic(1.2, "Số giờ đọc"));
-        indexStatistics.add(new IndexStatistic(3.2, "Số giờ đọc"));
-        indexStatistics.add(new IndexStatistic(4.1, "Số giờ đọc"));
+//        int numberOfBook=AppDatabase.getInstance(mContext).getNumberOfBook();
+//        int numberOfReadBook=AppDatabase.getInstance(mContext).getReadBook();
+        ArrayList<Book> listOfBook = AppDatabase.getInstance(mContext).getAllBook();
+        if (listOfBook.size() == 0) return;
+        int countTimeRead = 0;
+//        int numberOfBook;
+        int numberOfReadBook = 0;
+        for (int i = 0; i < listOfBook.size(); i++) {
+            countTimeRead += listOfBook.get(i).getTotalReadTime();
+//            book.add(new Book(listOfBook.get(i).getId(), listOfBook.get(i).getName(),
+//                    listOfBook.get(i).getGenreId(),listOfBook.get(i).getGenre(),
+//                    listOfBook.get(i).getAuthor(),listOfBook.get(i).getBookPath(),
+//                    listOfBook.get(i).getImgPath(),listOfBook.get(i).getId(),
+//                    listOfBook.get(i).getId(),listOfBook.get(i).getId(),listOfBook.get(i).getId()
+//                    ,listOfBook.get(i).getId()));
+
+            if (listOfBook.get(i).getLastRecentPage() != 0) {
+                book.add(listOfBook.get(i));
+                tickedBook.add(listOfBook.get(i));
+                numberOfReadBook++;
+            }
+//            tickedBook.add(new Book(1, "Đắc nhân tâm", 3));
+//            tickedBook.add(new Book(2, "Yêu trên từng ngón tay", 4));
+//            tickedBook.add(new Book(3, "Hạt giống tâm hồn", 5));
+//            tickedBook.add(new Book(4, "Bố già", 6));
+//            tickedBook.add(new Book(5, "Sherlock Home", 7));
+        }
+        double hourTimeRead = countTimeRead / 3600000;
+
+        indexStatistics.add(new IndexStatistic(listOfBook.size(), "Sách trên giá"));
+        indexStatistics.add(new IndexStatistic(numberOfReadBook, "Sách đã đọc"));
+        indexStatistics.add(new IndexStatistic(hourTimeRead, "Số giờ đọc"));
+
 
     }
 }

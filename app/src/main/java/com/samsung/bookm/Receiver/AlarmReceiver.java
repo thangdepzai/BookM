@@ -10,12 +10,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
+import android.os.Bundle;
 import android.os.SystemClock;
 
 import androidx.core.app.NotificationCompat;
 
 import com.samsung.bookm.Activity.EditReminderActivity;
+import com.samsung.bookm.Activity.ReadActivity;
 import com.samsung.bookm.Data.ReminderDatabase;
+import com.samsung.bookm.Model.AppDatabase;
+import com.samsung.bookm.Model.Book;
 import com.samsung.bookm.Model.Reminder;
 import com.samsung.bookm.R;
 
@@ -32,13 +36,17 @@ public class AlarmReceiver  extends BroadcastReceiver {
         int mReceivedID = Integer.parseInt(intent.getStringExtra(EditReminderActivity.EXTRA_REMINDER_ID));
 
         // Get notification title from Reminder Database
-        ReminderDatabase rb = new ReminderDatabase(context);
-        Reminder reminder = rb.getReminder(mReceivedID);
+        Reminder reminder = ReminderDatabase.getInstance(context).getReminder(mReceivedID);
         String mTitle = reminder.getmTitle();
+        int bookId = reminder.getmBookId();
+        Book b = AppDatabase.getInstance(context).getBookById(bookId);
 
         // Create intent to open ReminderEditActivity on notification click
-        Intent editIntent = new Intent(context, EditReminderActivity.class);
-        editIntent.putExtra(EditReminderActivity.EXTRA_REMINDER_ID, Integer.toString(mReceivedID));
+        Intent editIntent = new Intent(context, ReadActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("exercise", b);
+        editIntent.putExtra("READ_BOOK", bundle);
+       // editIntent.putExtra(ReadActivity.KEY_URI, b.getBookPath());
         PendingIntent mClick = PendingIntent.getActivity(context, mReceivedID, editIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Create Notification

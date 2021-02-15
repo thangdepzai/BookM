@@ -10,7 +10,7 @@
         android:id="@+id/book_cover"
         app:srcCompat="@drawable/ic_book_black_24dp"
         android:layout_centerHorizontal="true"
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
         android:layout_width="100dp"
         android:layout_height="150dp" />
     <ProgressBar
@@ -23,9 +23,11 @@
         android:layout_width="100dp"
         android:layout_height="5dp" />
     <TextView
+        android:textColor="@color/textPrimary"
         android:id="@+id/book_name"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/book_cover"
+        android:maxLines="2"
         android:layout_width="wrap_content"
         android:maxWidth="100dp"
         android:text="This is book's name"

@@ -16,11 +16,21 @@
         android:id="@+id/tv_ticked_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:textSize="15sp"
-        android:textColor="#120F0F"
+        android:textColor="@color/textPrimary"
         android:gravity="center"
         android:lines="3"
+        android:text="Đắc nhân tâm"
+        />
+    <TextView
+        android:id="@+id/tv_page_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@color/textPrimary"
+        android:gravity="center"
+        android:lines="1"
+        android:text="Page 15"
         />
 
 
